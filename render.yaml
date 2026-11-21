@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: black-russia-server
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: NODE_VERSION
+        value: "22"
