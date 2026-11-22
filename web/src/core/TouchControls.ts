@@ -50,6 +50,7 @@ export class TouchControls {
   }
 
   constructor(private readonly game: Game) {
+    document.documentElement.classList.add('touch-ui');
     this.root = document.createElement('div');
     this.root.className = 'tc';
 
@@ -233,9 +234,10 @@ export class TouchControls {
   private tick(): void {
     if (this.disposed) return;
     this.raf = requestAnimationFrame(() => this.tick());
+    // The overlay must follow `isBlocked`: visible in gameplay, hidden under menus.
     const blocked = this.game.input.isBlocked;
-    if (blocked === this.hidden) {
-      this.hidden = !blocked;
+    if (blocked !== this.hidden) {
+      this.hidden = blocked;
       this.root.classList.toggle('tc-hidden', blocked);
       if (blocked) this.releaseAll();
     }

@@ -21,7 +21,16 @@ app.use(express.json());
 // Android WebView loads it over https and can talk to the same host later.
 const GAME_DIR = path.join(__dirname, 'public', 'game');
 app.use('/assets', express.static(path.join(GAME_DIR, 'assets'), { maxAge: '1y', immutable: true }));
-app.use(express.static(GAME_DIR, { index: 'index.html', maxAge: 0 }));
+app.use(
+  express.static(GAME_DIR, {
+    index: 'index.html',
+    maxAge: 0,
+    // Phones must pick up a new build on the next launch instead of a cached index.html.
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('.html')) res.setHeader('Cache-Control', 'no-store');
+    },
+  }),
+);
 
 const server = http.createServer(app);
 const io = new Server(server, {

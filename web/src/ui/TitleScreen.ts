@@ -1,4 +1,5 @@
 import type { Game } from '../core/Game';
+import { TouchControls } from '../core/TouchControls';
 import { UiConfig } from '../systems/ui/config';
 import { el, setVisible, type UiComponent } from './dom';
 import './menu.css';
@@ -24,20 +25,25 @@ export class TitleScreen implements UiComponent {
     private readonly game: Game,
     actions: TitleActions,
   ) {
-    this.el = el('div', 'title');
+    const touch = TouchControls.isSupported();
+    this.el = el('div', touch ? 'title title-touch' : 'title');
     this.el.hidden = true;
     this.el.append(el('div', 'title-logo', 'Leonida'), el('div', 'title-sub', 'Vice City, Leonida'));
     const buttons = el('div', 'title-buttons');
-    const newGame = el('button', 'menu-button', 'New Game');
+    const newGame = el('button', 'menu-button', touch ? 'Новая игра' : 'New Game');
     newGame.addEventListener('click', () => actions.newGame());
-    this.continueButton = el('button', 'menu-button', 'Continue');
+    this.continueButton = el('button', 'menu-button', touch ? 'Продолжить' : 'Continue');
     this.continueButton.addEventListener('click', () => actions.continueGame());
     buttons.append(newGame, this.continueButton);
     this.nav.setItems([newGame, this.continueButton]);
     this.nav.onMove = () => game.audio.play('ui.blip', { volume: 0.5 });
     const footer = el('div', 'title-footer');
     const left = el('span');
-    left.append(key('W A S D'), 'Move  ', key('Mouse'), 'Look  ', key('F'), 'Enter vehicle  ', key('M'), 'Map  ', key('Esc'), 'Pause');
+    if (touch) {
+      left.append('Стик слева — движение · Свайп по экрану — обзор · Кнопки справа — действия');
+    } else {
+      left.append(key('W A S D'), 'Move  ', key('Mouse'), 'Look  ', key('F'), 'Enter vehicle  ', key('M'), 'Map  ', key('Esc'), 'Pause');
+    }
     footer.append(left, el('span', undefined, 'Non-commercial fan project'));
     this.el.append(buttons, footer);
   }

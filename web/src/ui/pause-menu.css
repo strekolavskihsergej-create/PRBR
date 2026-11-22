@@ -69,3 +69,82 @@
   text-transform: uppercase;
   color: var(--color-muted);
 }
+
+/* Phone landscape: stack the columns and keep every action reachable. */
+@media (max-height: 620px) {
+  .pause {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .pause-left {
+    width: 100%;
+    padding: 12px 16px 8px;
+  }
+
+  .pause-left .menu-heading {
+    font-size: 30px;
+  }
+
+  .pause-left .menu-subheading {
+    margin-bottom: 8px;
+  }
+
+  .pause-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 0;
+  }
+
+  .pause-buttons .menu-button {
+    min-height: 40px;
+    padding: 6px 8px;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .pause-buttons .menu-button + .menu-button {
+    margin-top: 0;
+  }
+
+  .pause-clock {
+    margin-top: 6px;
+    font-size: 11px;
+  }
+
+  .pause-right {
+    max-width: none;
+    padding: 6px 16px 20px;
+  }
+
+  .pause-panel-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+  }
+
+  .menu-table {
+    font-size: 12px;
+  }
+
+  .menu-table th,
+  .menu-table td {
+    padding: 3px 6px;
+  }
+
+  .menu-table td.value {
+    font-size: 13px;
+  }
+
+  .settings-row {
+    grid-template-columns: 1fr 112px 44px;
+    gap: 8px;
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .settings-row .settings-value {
+    font-size: 13px;
+  }
+}
