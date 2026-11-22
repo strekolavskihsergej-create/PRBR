@@ -33,10 +33,10 @@ export const m7: MissionDef = {
         });
         c.onCleanup(() => off?.());
       }),
-      goto(start, 6, 'Get to ~y~Downtown~y~'),
-      reachWanted(TARGET_LEVEL, 'Raise hell until you hit ~y~4 stars~y~ — shoot, steal, crash'),
-      survive(SURVIVE_SECONDS, 'Stay alive and free for', { showTimer: true }),
-      escapeWanted('Now ~y~lose them~y~ — respray or break line of sight'),
+      goto(start, 6, 'Доберись до ~y~Даунтауна~y~'),
+      reachWanted(TARGET_LEVEL, 'Шуми, пока не получишь ~y~4 звезды~y~ — стреляй, угоняй, бей'),
+      survive(SURVIVE_SECONDS, 'Продержись живым и на свободе', { showTimer: true }),
+      escapeWanted('Теперь ~y~сбрось их~y~ — перекрась машину или уйди из вида'),
       action((c) => {
         const stars = Math.max(TARGET_LEVEL, peak, c.game.wanted ? 0 : TARGET_LEVEL);
         c.reward = REWARD_PER_STAR * stars;

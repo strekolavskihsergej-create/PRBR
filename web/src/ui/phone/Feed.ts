@@ -24,17 +24,17 @@ const HANDLES = [
 ];
 
 const CRIME_LINES: Record<string, string[]> = {
-  rob_store: ['someone just held up a store on my block?? clerk is FINE, register is not', 'store robbery. again. this city man'],
-  rob_ped: ['got mugged at gunpoint, wallet gone, dignity gone', 'someone is robbing people downtown watch ur pockets'],
-  shot_fired: ['gunshots near me. not the 4th of july.', 'anyone else hear that?? sounded like a shotgun'],
-  carjack: ['bro just took someone\u2019s car with them still holding the keys', 'carjacking outside the waffle hut. the WAFFLE HUT.'],
-  hit_ped: ['saw a car plough through a crosswalk. driver did NOT stop', 'pedestrians: 0. sedan: 1.'],
-  kill_ped: ['there\u2019s a body on the sidewalk and traffic is just going around it', 'RIP to whoever that was on Ocean Drive'],
-  kill_cop: ['a cop got shot. every siren in Leonida is on', 'do NOT go downtown rn. cops are furious'],
-  explosion: ['a car just EXPLODED next to the marina lol', 'fireball on the highway, my uber is cancelled'],
+  rob_store: ['у меня на районе только что обнесли магазин?? продавец ЖИВ, касса нет', 'ограбление магазина. снова. этот город'],
+  rob_ped: ['меня обчистили под дулом, бумажник ушёл, достоинство тоже', 'в даунтауне грабят людей, берегите карманы'],
+  shot_fired: ['возле меня стреляли. не четвёртое июля', 'кто-нибудь ещё слышал?? вроде дробовик'],
+  carjack: ['братан просто угнал машину вместе с хозяином на ключах', 'угон прямо у «Вафельной хижины». У ВАФЕЛЬНОЙ ХИЖИНЫ.'],
+  hit_ped: ['видел, как машина проехала по переходу. водитель даже не остановился', 'пешеходы: 0. седан: 1.'],
+  kill_ped: ['на тротуаре лежит тело, а поток просто объезжает', 'RIP тому, кто был на Оушен-Драйв'],
+  kill_cop: ['застрелили копа. все сирены Леониды включены', 'НЕ езжайте в даунтаун сейчас. копы в бешенстве'],
+  explosion: ['машина только что ВЗОРВАЛАСЬ у марины))', 'огонь на шоссе, моё такси отменили'],
 };
 
-const DEFAULT_LINES = ['something is going down in Leonida', 'sirens. so many sirens.'];
+const DEFAULT_LINES = ['в Леониде что-то происходит', 'сирены. очень много сирен.'];
 
 /**
  * Parody social feed built from game events. Kept in memory only (not saved),
@@ -62,18 +62,18 @@ export class Feed {
         this.post(this.rng.pick(CRIME_LINES[type] ?? DEFAULT_LINES));
       }),
       ev.on('casino:won', ({ game: table, amount }) => {
-        if (amount >= 500) this.post(`someone just took the Diamond for ${formatCash(amount)} at ${table}. house is NOT happy`);
+        if (amount >= 500) this.post(`кто-то только что снял ${formatCash(amount)} за столом «${table}». казино НЕ довольно`);
       }),
       ev.on('economy:cashChanged', ({ delta, reason }) => {
         if (Math.abs(delta) < 2000) return;
-        if (delta > 0) this.post(reason === 'chopshop' ? `docks were busy tonight. ${formatCash(delta)} kind of busy` : `who just came into ${formatCash(delta)}?? asking for a friend`);
-        else this.post(`watched someone drop ${formatCash(-delta)} without blinking. rich people are weird`);
+        if (delta > 0) this.post(reason === 'chopshop' ? `в доках сегодня жарко. на ${formatCash(delta)} жарко` : `у кого-то завелось ${formatCash(delta)}?? просто спрашиваю`);
+        else this.post(`видел, как кто-то спустил ${formatCash(-delta)} без единой эмоции. богатые странные`);
       }),
-      ev.on('robbery:completed', ({ amount }) => this.post(`store on the corner just got emptied for like ${formatCash(amount)}. clerk hands still up`)),
-      ev.on('chopshop:sold', ({ archetypeId }) => this.post(`if you owned a ${archetypeId} in Leonida... you don't anymore`)),
-      ev.on('mission:passed', () => this.post('heard some people just pulled off something big. no details. respect.')),
+      ev.on('robbery:completed', ({ amount }) => this.post(`магазин на углу только что опустел примерно на ${formatCash(amount)}. руки продавца всё ещё вверх`)),
+      ev.on('chopshop:sold', ({ archetypeId }) => this.post(`если у вас в Леониде была ${archetypeId}... уже нет`)),
+      ev.on('mission:passed', () => this.post('слышал, кто-то только что провернул большое дело. без деталей. уважение')),
     );
-    this.post('welcome to Leonida. don\u2019t drink the canal water.');
+    this.post('добро пожаловать в Леониду. не пейте воду из канала.');
   }
 
   post(text: string, handle = this.rng.pick(HANDLES)): void {

@@ -43,7 +43,7 @@ export interface DistrictDef {
 export const DISTRICTS: readonly DistrictDef[] = [
   {
     id: 'viceBeach',
-    name: 'Vice Beach',
+    name: 'Вайс-Бич',
     rect: { x0: 500, z0: -650, x1: 900, z1: 650 },
     style: 'artDeco',
     groundColor: 0xb9b3a4,
@@ -60,7 +60,7 @@ export const DISTRICTS: readonly DistrictDef[] = [
   },
   {
     id: 'downtown',
-    name: 'Downtown',
+    name: 'Даунтаун',
     rect: { x0: -200, z0: -400, x1: 400, z1: 300 },
     style: 'highRise',
     groundColor: 0x8d8d90,
@@ -77,7 +77,7 @@ export const DISTRICTS: readonly DistrictDef[] = [
   },
   {
     id: 'littleHabana',
-    name: 'Little Habana',
+    name: 'Литл-Хабана',
     rect: { x0: -700, z0: -400, x1: -200, z1: 300 },
     style: 'mixedUse',
     groundColor: 0xa39a88,
@@ -94,7 +94,7 @@ export const DISTRICTS: readonly DistrictDef[] = [
   },
   {
     id: 'portGellhorn',
-    name: 'Port Gellhorn',
+    name: 'Порт-Геллхорн',
     rect: { x0: -700, z0: -900, x1: 350, z1: -450 },
     style: 'suburban',
     groundColor: 0x6f8f4d,
@@ -111,7 +111,7 @@ export const DISTRICTS: readonly DistrictDef[] = [
   },
   {
     id: 'docks',
-    name: 'The Docks',
+    name: 'Доки',
     rect: { x0: -700, z0: 400, x1: 0, z1: 900 },
     style: 'industrial',
     groundColor: 0x6b6b68,
@@ -128,7 +128,7 @@ export const DISTRICTS: readonly DistrictDef[] = [
   },
   {
     id: 'grassrivers',
-    name: 'Grassrivers',
+    name: 'Грассриверс',
     rect: { x0: -1000, z0: -900, x1: -800, z1: 900 },
     style: 'swamp',
     groundColor: 0x4f5a34,

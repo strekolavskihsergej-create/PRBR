@@ -74,14 +74,14 @@ export class Respray {
     if (!v || this.busy) return false;
     const wanted = this.game.wanted;
     if (wanted && wanted.level > 0 && wanted.playerSeen) {
-      this.game.events.emit('notification', { text: 'They can see you — lose them first.', kind: 'warning' });
+      this.game.events.emit('notification', { text: 'Тебя видят — сначала сбрось погоню.', kind: 'warning' });
       this.game.audio.play('shop.denied');
       return false;
     }
     const cost = resprayCost(wanted?.level ?? 0);
     const economy = this.game.economy;
     if (!economy || !economy.trySpend(cost, 'respray')) {
-      this.game.events.emit('notification', { text: `Respray costs $${cost.toLocaleString('en-US')}.`, kind: 'warning' });
+      this.game.events.emit('notification', { text: `Перекраска стоит $${cost.toLocaleString('ru-RU')}.`, kind: 'warning' });
       return false;
     }
     this.busy = true;
@@ -96,7 +96,7 @@ export class Respray {
     if (interiors) await interiors.fadeThrough(finish, ResprayConfig.holdSeconds);
     else finish();
     this.game.audio.play('respray.done');
-    this.game.events.emit('notification', { text: cleared ? 'Fresh paint. The heat is off.' : 'Fresh paint.', kind: 'info' });
+    this.game.events.emit('notification', { text: cleared ? 'Свежая краска. Погоня сброшена.' : 'Свежая краска.', kind: 'info' });
     this.game.events.emit('respray:done', { cost, cleared });
     this.busy = false;
     return true;

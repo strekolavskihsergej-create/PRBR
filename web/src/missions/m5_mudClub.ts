@@ -32,9 +32,9 @@ export const m5: MissionDef = {
     const escape = roadPointNear(ctx.game, ESCAPE_AREA).pos;
     return [
       cutscene(sceneTalk('m5_start', dialogue('m5_start'))),
-      goto(pkg, 2.5, 'Pick up the ~y~package~y~ Downtown'),
-      action((c) => c.game.ui?.notify('Package collected', 'info')),
-      goto(club, 8, 'Deliver the package to the ~y~Gator Pit~y~ in Grassrivers', { blip: 'club' }),
+      goto(pkg, 2.5, 'Забери ~y~посылку~y~ в Даунтауне'),
+      action((c) => c.game.ui?.notify('Посылка у тебя', 'info')),
+      goto(club, 8, 'Доставь посылку в ~y~Гатор-Пит~y~ в Грассриверсе', { blip: 'club' }),
       cutscene({
         id: 'm5_ambush',
         letterbox: false,
@@ -44,8 +44,8 @@ export const m5: MissionDef = {
           { run: () => spawnAmbush(ctx, club, gang, (v) => (truck = v)) },
         ],
       }),
-      survive(SURVIVE_SECONDS, 'Survive the ~y~ambush~y~ — the rifle is on the ground', { orKill: () => gang, showTimer: true }),
-      goto(escape, 8, 'Take the ~y~pickup~y~ and get out of the swamp', { vehicle: () => truck, blip: 'vehicle' }),
+      survive(SURVIVE_SECONDS, 'Выживи в ~y~засаде~y~ — винтовка на земле', { orKill: () => gang, showTimer: true }),
+      goto(escape, 8, 'Садись в ~y~пикап~y~ и уходи из болота', { vehicle: () => truck, blip: 'vehicle' }),
       cutscene(sceneTalk('m5_done', dialogue('m5_done'))),
     ];
   },

@@ -9,7 +9,7 @@ export const SLOT_GLYPHS: Record<SlotSymbol, string> = {
   bar: 'BAR',
   seven: '7',
   diamond: '◆',
-  gator: 'GATOR',
+  gator: 'ГАТОР',
 };
 
 /** Three-reel slot machine. Reels cycle symbols while spinning and stop staggered. */
@@ -26,7 +26,7 @@ export class SlotsPanel extends CasinoPanel {
   lastResult: SlotResult | null = null;
 
   constructor(casino: CasinoSystem) {
-    super(casino, 'slots', 'Slots');
+    super(casino, 'slots', 'Автоматы');
     this.machine = casino.stage.nearestSlot();
   }
 
@@ -43,13 +43,13 @@ export class SlotsPanel extends CasinoPanel {
     this.payoutEl = this.div('casino-msg');
     this.payoutEl.dataset.field = 'payout';
     cabinet.append(reels, this.buildPaytable());
-    const betRow = this.row('Bet');
+    const betRow = this.row('Ставка');
     for (const b of SLOT_BETS) {
       const btn = this.button(String(b), () => this.setBet(b), 'secondary', `bet-${b}`);
       this.betBtns.push(btn);
       betRow.appendChild(btn);
     }
-    this.spinBtn = this.button('Pull lever', () => this.spin(), '', 'spin');
+    this.spinBtn = this.button('Дёрнуть рычаг', () => this.spin(), '', 'spin');
     betRow.appendChild(this.spinBtn);
     this.body.append(cabinet, betRow, this.msgEl);
     this.setBet(this.bet);
@@ -58,8 +58,8 @@ export class SlotsPanel extends CasinoPanel {
   private buildPaytable(): HTMLElement {
     const table = this.div('sl-paytable');
     const rows: [string, number][] = [
-      ['◆ ◆ ◆ JACKPOT', SLOT_PAYTABLE.threeDiamonds],
-      ['GATOR ×3', SLOT_PAYTABLE.threeGators],
+      ['◆ ◆ ◆ ДЖЕКПОТ', SLOT_PAYTABLE.threeDiamonds],
+      ['ГАТОР ×3', SLOT_PAYTABLE.threeGators],
       ['7 7 7', SLOT_PAYTABLE.threeSevens],
       ['BAR BAR BAR', SLOT_PAYTABLE.threeBars],
       ['●● ×3', SLOT_PAYTABLE.threeCherries],
@@ -138,14 +138,14 @@ export class SlotsPanel extends CasinoPanel {
     this.casino.settleRound('slots', result.payout - result.bet);
     if (result.jackpot) {
       audio.play('casino.jackpot');
-      this.message(`JACKPOT! ${result.payout.toLocaleString('en-US')} chips!`, 'win');
+      this.message(`ДЖЕКПОТ! Фишек: ${result.payout.toLocaleString('ru-RU')}!`, 'win');
     } else if (result.payout > 0) {
       audio.play('casino.slot.win');
       audio.play('casino.slot.coin');
-      this.message(`${result.label} — ${result.payout.toLocaleString('en-US')} chips`, 'win');
+      this.message(`${result.label} — фишек: ${result.payout.toLocaleString('ru-RU')}`, 'win');
     } else {
       audio.play('casino.lose');
-      this.message('No luck. Pull again?', 'lose');
+      this.message('Не повезло. Ещё раз?', 'lose');
     }
     this.payoutEl.textContent = String(result.payout);
     this.spinning = false;

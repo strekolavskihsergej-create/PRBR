@@ -14,7 +14,7 @@ import { NavConfig as N } from './config';
 export class NavigationSystem implements GameSystem, INavigationPeer {
   private readonly blipMap = new Map<string, Blip>();
   private readonly waypointPos: V3 = { x: 0, y: 0, z: 0 };
-  private readonly waypointBlip: Blip = { id: 'waypoint', kind: 'waypoint', position: this.waypointPos, label: 'Waypoint' };
+  private readonly waypointBlip: Blip = { id: 'waypoint', kind: 'waypoint', position: this.waypointPos, label: 'Метка' };
   private hasWaypoint = false;
   /** Route points are recycled so re-planning never allocates in steady state. */
   private readonly pointPool: V3[] = [];

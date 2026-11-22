@@ -38,7 +38,13 @@ export class Minimap implements UiComponent {
   private readonly view: MapView = { cx: 0, cy: 0, wx: 0, wz: 0, zoom: M.zoomOnFoot, cos: 1, sin: 0 };
   private readonly rim: ScreenRect = { x0: 0, y0: 0, x1: 0, y1: 0 };
   private dpr = 1;
-  private zoom = M.zoomOnFoot;
+  /** Round, small radar in the top-left corner on touch devices; the desktop map stays as is. */
+  private readonly touch: boolean;
+  private readonly width: number;
+  private readonly height: number;
+  private readonly zoomOnFoot: number;
+  private readonly zoomAtSpeed: number;
+  private zoom: number;
   private lastHealth = -1;
   private lastArmor = -1;
   private lastDistance = -1;
@@ -47,7 +53,13 @@ export class Minimap implements UiComponent {
     private readonly game: Game,
     private readonly layer: MapLayer,
   ) {
-    this.el = el('div', 'minimap');
+    this.touch = game.touch !== undefined;
+    this.width = this.touch ? M.touchSize : M.width;
+    this.height = this.touch ? M.touchSize : M.height;
+    this.zoomOnFoot = this.touch ? M.touchZoomOnFoot : M.zoomOnFoot;
+    this.zoomAtSpeed = this.touch ? M.touchZoomAtSpeed : M.zoomAtSpeed;
+    this.zoom = this.zoomOnFoot;
+    this.el = el('div', this.touch ? 'minimap minimap-touch' : 'minimap');
     this.canvas = el('canvas');
     this.el.appendChild(this.canvas);
     const bars = el('div', 'minimap-bars');
@@ -70,8 +82,8 @@ export class Minimap implements UiComponent {
 
   private readonly resize = (): void => {
     this.dpr = Math.min(2, window.devicePixelRatio || 1);
-    this.canvas.width = Math.round(M.width * this.dpr);
-    this.canvas.height = Math.round(M.height * this.dpr);
+    this.canvas.width = Math.round(this.width * this.dpr);
+    this.canvas.height = Math.round(this.height * this.dpr);
   };
 
   update(state: GameState, realDt: number): void {
@@ -115,16 +127,18 @@ export class Minimap implements UiComponent {
     const ctx = this.ctx;
     const w = this.canvas.width;
     const h = this.canvas.height;
-    const dpr = this.dpr;
+    // Canvas pixels per CSS pixel (the map is drawn in device pixels).
+    const dpr = w / this.width;
+    const k = this.touch ? 0.78 : 1;
 
     // Zoom out with vehicle speed; the blend is smoothed so gear changes do not pop.
     const speed = state.vehicle ? Math.min(1, Math.abs(state.vehicle.speedKmh) / M.zoomSpeedKmh) : 0;
-    const targetZoom = M.zoomOnFoot + (M.zoomAtSpeed - M.zoomOnFoot) * speed;
+    const targetZoom = this.zoomOnFoot + (this.zoomAtSpeed - this.zoomOnFoot) * speed;
     this.zoom += (targetZoom - this.zoom) * Math.min(1, realDt * M.zoomSmoothing);
 
     const view = this.view;
     view.cx = w / 2;
-    view.cy = h * 0.58;
+    view.cy = this.touch ? h / 2 : h * 0.58;
     view.wx = state.playerPos.x;
     view.wz = state.playerPos.z;
     view.zoom = this.zoom * dpr;
@@ -135,7 +149,8 @@ export class Minimap implements UiComponent {
     ctx.clearRect(0, 0, w, h);
     ctx.save();
     ctx.beginPath();
-    roundedRect(ctx, 0, 0, w, h, M.cornerRadius * dpr);
+    if (this.touch) ctx.arc(w / 2, h / 2, w / 2, 0, Math.PI * 2);
+    else roundedRect(ctx, 0, 0, w, h, M.cornerRadius * dpr);
     ctx.clip();
 
     drawStaticLayer(ctx, view, this.layer);
@@ -146,9 +161,9 @@ export class Minimap implements UiComponent {
     this.rim.y0 = 0;
     this.rim.x1 = w;
     this.rim.y1 = h;
-    drawBlips(ctx, view, state.blips, M.blipSize * dpr, this.rim, M.rimMargin * dpr);
-    this.units.draw(ctx, view, M.unitQueryRadius, (M.dotSize * dpr) / 2, M.maxUnits);
-    drawPlayerArrow(ctx, view.cx, view.cy, -Math.PI / 2, 7 * dpr);
+    drawBlips(ctx, view, state.blips, M.blipSize * dpr * k, this.rim, M.rimMargin * dpr * k);
+    this.units.draw(ctx, view, M.unitQueryRadius, (M.dotSize * dpr * k) / 2, M.maxUnits);
+    drawPlayerArrow(ctx, view.cx, view.cy, -Math.PI / 2, 7 * dpr * k);
     this.drawNorth(ctx, w, h, dpr);
     ctx.restore();
   }

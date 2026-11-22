@@ -11,8 +11,8 @@ interface ColorKey {
 }
 
 const HORIZON_KEYS: ColorKey[] = [
-  { e: -0.35, c: [0.015, 0.02, 0.05] },
-  { e: -0.12, c: [0.08, 0.05, 0.14] },
+  { e: -0.35, c: [0.05, 0.06, 0.11] },
+  { e: -0.12, c: [0.12, 0.09, 0.2] },
   { e: -0.03, c: [0.42, 0.2, 0.38] },
   { e: 0.04, c: [0.98, 0.5, 0.28] },
   { e: 0.14, c: [0.98, 0.72, 0.5] },
@@ -60,7 +60,8 @@ export class DayNight {
 
   constructor(private readonly game: Game) {
     this.sun = new DirectionalLight(0xffffff, DN.sunIntensityDay);
-    this.sun.castShadow = Config.render.shadows;
+    // Follows the renderer profile (phones run without a shadow pass).
+    this.sun.castShadow = game.renderer.shadowMap.enabled;
     const sh = this.sun.shadow;
     sh.mapSize.set(Config.render.shadowMapSize, Config.render.shadowMapSize);
     sh.camera.near = 1;
@@ -144,7 +145,8 @@ export class DayNight {
     sampleKeys(HORIZON_KEYS, e, this.horizonColor);
     this.fog.color.copy(this.horizonColor);
     this.fog.near = DN.fogNear;
-    this.fog.far = DN.fogFar * (isDay ? 1 : 0.75);
+    // Night used to cut visibility hard; keep most of the range so the city stays readable.
+    this.fog.far = DN.fogFar * (isDay ? 1 : 0.95);
 
     // Hemisphere: sky tint above, warm ground bounce below; deep blue at night.
     const dayAmount = MathUtils.smoothstep(e, -0.12, 0.2);

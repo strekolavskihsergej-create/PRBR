@@ -163,23 +163,34 @@ export function pocketAngle(pocket: number): number {
   return ((idx < 0 ? 0 : idx) / WHEEL_ORDER.length) * Math.PI * 2;
 }
 
+const BET_NAMES: Record<string, string> = {
+  straight: 'прямая',
+  split: 'сплит',
+  street: 'стрит',
+  corner: 'угол',
+  even: 'чёт',
+  odd: 'нечёт',
+  red: 'красное',
+  black: 'чёрное',
+};
+
 export function describeBet(bet: RouletteBet): string {
   switch (bet.kind) {
     case 'straight':
-      return `Straight ${pocketLabel(bet.pockets[0])}`;
+      return `прямая ${pocketLabel(bet.pockets[0])}`;
     case 'split':
     case 'street':
     case 'corner':
-      return `${bet.kind[0].toUpperCase()}${bet.kind.slice(1)} ${bet.pockets.map(pocketLabel).join('-')}`;
+      return `${BET_NAMES[bet.kind]} ${bet.pockets.map(pocketLabel).join('-')}`;
     case 'dozen':
-      return `Dozen ${bet.index * 12 + 1}-${bet.index * 12 + 12}`;
+      return `дюжина ${bet.index * 12 + 1}-${bet.index * 12 + 12}`;
     case 'column':
-      return `Column ${bet.index + 1}`;
+      return `колонка ${bet.index + 1}`;
     case 'low':
       return '1-18';
     case 'high':
       return '19-36';
     default:
-      return bet.kind[0].toUpperCase() + bet.kind.slice(1);
+      return BET_NAMES[bet.kind] ?? bet.kind;
   }
 }

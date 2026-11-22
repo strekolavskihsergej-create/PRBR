@@ -89,11 +89,11 @@ export class RobberySystem implements GameSystem, IRobberyPeer {
       this.complete(a);
       return;
     }
-    this.game.ui?.progressBar.show('Filling bag', a.clock.fraction);
+    this.game.ui?.progressBar.show('Набиваем сумку', a.clock.fraction);
     a.lineTimer -= dt;
     if (a.lineTimer <= 0) {
       a.lineTimer = 4 + this.rng.range(0, 3);
-      this.game.events.emit('notification', { text: `Clerk: ${this.rng.pick(C.clerkLines)}`, kind: 'info' });
+      this.game.events.emit('notification', { text: `Продавец: ${this.rng.pick(C.clerkLines)}`, kind: 'info' });
     }
   }
 
@@ -128,7 +128,7 @@ export class RobberySystem implements GameSystem, IRobberyPeer {
     this.aimTime = 0;
     this.game.audio.play('register.open');
     this.game.audio.play('robbery.bagfill.loop');
-    this.game.ui?.progressBar.show('Filling bag', 0);
+    this.game.ui?.progressBar.show('Набиваем сумку', 0);
     this.game.events.emit('robbery:started', { storeId });
     return true;
   }
@@ -138,7 +138,7 @@ export class RobberySystem implements GameSystem, IRobberyPeer {
     if (!a) return;
     a.loud = true;
     if (!a.completed && a.clock.onShot()) {
-      this.game.events.emit('notification', { text: 'Clerk: "Okay! Okay! Faster!"', kind: 'warning' });
+      this.game.events.emit('notification', { text: 'Продавец: «Ладно! Ладно! Только быстрее!»', kind: 'warning' });
     }
   }
 
@@ -156,7 +156,7 @@ export class RobberySystem implements GameSystem, IRobberyPeer {
     this.game.ui?.progressBar.hide();
     this.game.audio.play('register.cash');
     this.game.audio.play('robbery.complete');
-    this.game.events.emit('notification', { text: `Bag's full: $${amount.toLocaleString('en-US')}. Grab it and go.`, kind: 'money' });
+    this.game.events.emit('notification', { text: `Сумка полна: $${amount.toLocaleString('ru-RU')}. Хватай и уходи.`, kind: 'money' });
     this.game.events.emit('robbery:completed', { storeId: a.store.def.id, amount });
   }
 

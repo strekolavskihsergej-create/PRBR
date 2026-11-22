@@ -24,7 +24,7 @@ export class Purchases {
         id,
         name: def.name,
         detail: owned ? `${def.magazine}-round clip · ${ammo} in stock` : `${def.damage} dmg · ${def.magazine}-round clip`,
-        action: owned ? 'Buy ammo' : 'Buy',
+        action: owned ? 'Патроны' : 'Купить',
         price,
         affordable: cash >= price,
         disabled: !weapons,
@@ -34,9 +34,9 @@ export class Purchases {
     const armor = hasPlayer ? this.game.player.armor : 0;
     rows.push({
       id: 'armor',
-      name: 'Body Armour',
+      name: 'Бронежилет',
       detail: `${Math.round(armor)}/${ARMOR_AMOUNT} worn`,
-      action: armor >= ARMOR_AMOUNT ? 'Full' : 'Buy',
+              action: armor >= ARMOR_AMOUNT ? 'Полный' : 'Купить',
       price: ARMOR_PRICE,
       affordable: cash >= ARMOR_PRICE,
       disabled: armor >= ARMOR_AMOUNT || !hasPlayer,
@@ -46,19 +46,19 @@ export class Purchases {
 
   buy(item: string): PurchaseResult {
     const economy = this.game.economy;
-    if (!economy) return { ok: false, message: 'No wallet.' };
+    if (!economy) return { ok: false, message: 'Нет кошелька.' };
     if (item === 'armor') {
-      if (!this.game.systems.has('player')) return { ok: false, message: 'Nobody to wear it.' };
+      if (!this.game.systems.has('player')) return { ok: false, message: 'Некому носить.' };
       const player = this.game.player;
-      if (player.armor >= ARMOR_AMOUNT) return { ok: false, message: 'Already wearing full armour.' };
+      if (player.armor >= ARMOR_AMOUNT) return { ok: false, message: 'Бронежилет уже надет.' };
       if (!economy.trySpend(ARMOR_PRICE, 'shop:armor')) return this.denied(ARMOR_PRICE);
       player.addArmor(ARMOR_AMOUNT);
-      return this.bought('armor', ARMOR_PRICE, 'Body armour fitted.');
+      return this.bought('armor', ARMOR_PRICE, 'Бронежилет надет.');
     }
-    if (!isBuyable(item)) return { ok: false, message: 'Not stocked.' };
+    if (!isBuyable(item)) return { ok: false, message: 'Нет в наличии.' };
     const weaponId: BuyableWeaponId = item;
     const weapons = this.game.weapons;
-    if (!weapons) return { ok: false, message: 'No weapons system.' };
+    if (!weapons) return { ok: false, message: 'Оружие недоступно.' };
     const def = WEAPONS[weaponId];
     if (weapons.has(weaponId)) {
       const price = WEAPON_PRICES[weaponId].ammo;
@@ -74,14 +74,14 @@ export class Purchases {
 
   buyFood(foodId: FoodId | null): PurchaseResult {
     const food = foodId ? FOOD[foodId] : null;
-    if (!food) return { ok: false, message: 'Nothing to eat here.' };
-    if (!this.game.systems.has('player')) return { ok: false, message: 'Nobody to feed.' };
+    if (!food) return { ok: false, message: 'Здесь нечего есть.' };
+    if (!this.game.systems.has('player')) return { ok: false, message: 'Некого кормить.' };
     const economy = this.game.economy;
     if (!economy || !economy.trySpend(food.price, 'shop:food')) return this.denied(food.price);
     this.game.player.heal(food.heal);
     this.game.audio.play('food.eat');
     this.game.events.emit('shop:purchased', { itemId: food.id, price: food.price });
-    this.game.events.emit('notification', { text: `${food.name}: +${food.heal} health`, kind: 'info' });
+    this.game.events.emit('notification', { text: `${food.name}: +${food.heal} к здоровью`, kind: 'info' });
     return { ok: true, message: food.name };
   }
 

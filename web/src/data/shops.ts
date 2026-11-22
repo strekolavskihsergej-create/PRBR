@@ -34,7 +34,7 @@ const SHOTGUN = 0.25;
 export const STORES: readonly StoreDef[] = [
   {
     id: 'gunstore',
-    name: 'Bullet Barn',
+    name: 'Оружейный магазин',
     landmarkId: 'gunstore',
     kind: 'gun',
     registerCash: { min: 400, max: 800 },
@@ -46,7 +46,7 @@ export const STORES: readonly StoreDef[] = [
   },
   {
     id: 'store_habana',
-    name: '24/7 Little Habana',
+    name: '24/7 Литл-Хабана',
     landmarkId: 'store_habana',
     kind: 'convenience',
     registerCash: { min: 200, max: 600 },
@@ -58,7 +58,7 @@ export const STORES: readonly StoreDef[] = [
   },
   {
     id: 'store_gellhorn',
-    name: '24/7 Gellhorn',
+    name: '24/7 Геллхорн',
     landmarkId: 'store_gellhorn',
     kind: 'convenience',
     registerCash: { min: 200, max: 600 },
@@ -70,7 +70,7 @@ export const STORES: readonly StoreDef[] = [
   },
   {
     id: 'store_downtown',
-    name: '24/7 Downtown',
+    name: '24/7 Даунтаун',
     landmarkId: 'store_downtown',
     kind: 'convenience',
     registerCash: { min: 300, max: 800 },
@@ -82,7 +82,7 @@ export const STORES: readonly StoreDef[] = [
   },
   {
     id: 'store_beach',
-    name: '24/7 Beach',
+    name: '24/7 Пляж',
     landmarkId: 'store_beach',
     kind: 'convenience',
     registerCash: { min: 200, max: 600 },
@@ -94,7 +94,7 @@ export const STORES: readonly StoreDef[] = [
   },
   {
     id: 'gas_station',
-    name: 'Xero Gas',
+    name: 'Заправка «Ксеро Газ»',
     landmarkId: 'gas_station',
     kind: 'gas',
     registerCash: { min: 200, max: 500 },
@@ -106,7 +106,7 @@ export const STORES: readonly StoreDef[] = [
   },
   {
     id: 'waffle_hut',
-    name: 'Waffle Hut',
+    name: '«Вафельная хижина»',
     landmarkId: 'waffle_hut',
     kind: 'food',
     registerCash: { min: 200, max: 500 },
@@ -118,7 +118,7 @@ export const STORES: readonly StoreDef[] = [
   },
   {
     id: 'safehouse',
-    name: 'Safehouse',
+    name: 'Убежище',
     landmarkId: 'safehouse',
     kind: 'safehouse',
     registerCash: null,
@@ -130,7 +130,7 @@ export const STORES: readonly StoreDef[] = [
   },
   {
     id: 'jewelry',
-    name: 'Vangelico Jewelers',
+    name: 'Ювелирный «Вайс Рокс»',
     landmarkId: 'jewelry',
     kind: 'jewelry',
     registerCash: null,
@@ -142,7 +142,7 @@ export const STORES: readonly StoreDef[] = [
   },
   {
     id: 'bank',
-    name: 'Fleeca Bank',
+    name: 'Банк «Флика»',
     landmarkId: 'bank',
     kind: 'bank',
     registerCash: null,
@@ -154,7 +154,7 @@ export const STORES: readonly StoreDef[] = [
   },
   {
     id: 'respray',
-    name: 'Vice Sprays',
+    name: 'Перекраска «Вайс Спрейс»',
     landmarkId: 'respray',
     kind: 'respray',
     registerCash: null,
@@ -166,7 +166,7 @@ export const STORES: readonly StoreDef[] = [
   },
   {
     id: 'chop_shop',
-    name: 'Chop Shop',
+    name: 'Разборка',
     landmarkId: 'chop_shop',
     kind: 'chopshop',
     registerCash: null,

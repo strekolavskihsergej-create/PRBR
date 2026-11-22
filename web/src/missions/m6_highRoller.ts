@@ -20,9 +20,9 @@ export const m6: MissionDef = {
   build() {
     const entrance = doorFront('casino', 5);
     return [
-      goto(entrance, 6, 'Go to ~y~Leonida Palms~y~ Downtown', { blip: 'casino' }),
+      goto(entrance, 6, 'Приезжай в ~y~Леонида-Палмс~y~ в Даунтауне', { blip: 'casino' }),
       cutscene(sceneOrbit('m6_start', entrance, dialogue('m6_start'))),
-      winAtCasino(TARGET_WINNINGS, entrance, 'Win at the ~y~tables~y~ inside — blackjack counts'),
+      winAtCasino(TARGET_WINNINGS, entrance, 'Выиграй за ~y~столами~y~ внутри — блэкджек считается'),
       cutscene(sceneTalk('m6_done', dialogue('m6_done'))),
     ];
   },

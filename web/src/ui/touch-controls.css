@@ -142,26 +142,90 @@ body {
   height: 56px;
 }
 
-/* Top row: weapon, map, pause. */
+/* Top row, centred: weapon, map, pause (the corners hold the radar and the cash HUD). */
 .tc-weapon {
-  right: 18px;
-  top: 16px;
+  left: calc(50% - 100px);
+  top: 14px;
   width: 58px;
   height: 58px;
 }
 
 .tc-map {
-  right: 84px;
-  top: 16px;
+  left: calc(50% - 34px);
+  top: 14px;
   width: 58px;
   height: 58px;
 }
 
 .tc-pause {
-  right: 150px;
-  top: 16px;
+  left: calc(50% + 34px);
+  top: 18px;
   width: 50px;
   height: 50px;
+}
+
+/* --- Driving layout: pedals replace the on-foot actions ----------------- */
+.tc-gas,
+.tc-brake,
+.tc-handbrake {
+  display: none;
+}
+
+.tc-driving .tc-gas,
+.tc-driving .tc-brake,
+.tc-driving .tc-handbrake {
+  display: flex;
+}
+
+.tc-driving .tc-jump,
+.tc-driving .tc-use,
+.tc-driving .tc-aim,
+.tc-driving .tc-sprint,
+.tc-driving .tc-fire {
+  display: none;
+}
+
+.tc-gas {
+  right: 18px;
+  bottom: 26px;
+  width: 88px;
+  height: 88px;
+  font-size: 13px;
+  border-color: rgba(120, 225, 130, 0.6);
+  background: rgba(18, 78, 32, 0.42);
+}
+
+.tc-gas.on {
+  background: rgba(60, 200, 90, 0.55);
+}
+
+.tc-brake {
+  right: 118px;
+  bottom: 26px;
+  width: 76px;
+  height: 76px;
+  font-size: 11px;
+  border-color: rgba(255, 130, 130, 0.55);
+  background: rgba(96, 22, 22, 0.42);
+}
+
+.tc-brake.on {
+  background: rgba(210, 60, 60, 0.55);
+}
+
+.tc-handbrake {
+  right: 118px;
+  bottom: 114px;
+  width: 62px;
+  height: 62px;
+  font-size: 10px;
+}
+
+.tc-driving .tc-car {
+  right: 18px;
+  bottom: 126px;
+  width: 62px;
+  height: 62px;
 }
 
 @media (max-height: 420px) {
@@ -188,5 +252,29 @@ body {
     bottom: 14px;
     width: 56px;
     height: 56px;
+  }
+
+  .tc-gas {
+    bottom: 16px;
+    width: 78px;
+    height: 78px;
+  }
+
+  .tc-brake {
+    bottom: 16px;
+    width: 68px;
+    height: 68px;
+  }
+
+  .tc-handbrake {
+    bottom: 96px;
+    width: 56px;
+    height: 56px;
+  }
+
+  .tc-driving .tc-car {
+    bottom: 104px;
+    width: 54px;
+    height: 54px;
   }
 }

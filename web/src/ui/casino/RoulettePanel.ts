@@ -45,25 +45,31 @@ export class RoulettePanel extends CasinoPanel {
   private raf = 0;
 
   constructor(casino: CasinoSystem) {
-    super(casino, 'roulette', 'Roulette');
+    super(casino, 'roulette', 'Рулетка');
   }
 
   protected build(): void {
     const wrap = this.div('rl-wrap');
     wrap.append(this.buildLayout(), this.buildSide());
-    const chipRow = this.row('Chip');
+    const chipRow = this.row('Фишка');
     for (const v of CasinoConfig.roulette.chipValues) {
       const b = this.button(String(v), () => this.selectChip(v), 'secondary', `chip-${v}`);
       this.chipBtns.push(b);
       chipRow.appendChild(b);
     }
-    const modeRow = this.row('Inside bet');
-    for (const m of ['straight', 'split', 'street', 'corner'] as InsideBetKind[]) {
-      const b = this.button(m, () => this.setMode(m), 'secondary small', `mode-${m}`);
+    const modeRow = this.row('Ставка');
+    const modes: [InsideBetKind, string][] = [
+      ['straight', 'Прямая'],
+      ['split', 'Сплит'],
+      ['street', 'Стрит'],
+      ['corner', 'Угол'],
+    ];
+    for (const [m, label] of modes) {
+      const b = this.button(label, () => this.setMode(m), 'secondary small', `mode-${m}`);
       this.modeBtns.push(b);
       modeRow.appendChild(b);
     }
-    modeRow.appendChild(this.div('casino-hint', 'Straight 35:1 · Split 17:1 · Street 11:1 · Corner 8:1 · Dozens/Columns 2:1 · Even money 1:1'));
+    modeRow.appendChild(this.div('casino-hint', 'Прямая 35:1 · Сплит 17:1 · Стрит 11:1 · Угол 8:1 · Дюжины/колонки 2:1 · Равные шансы 1:1'));
     this.body.append(wrap, chipRow, modeRow, this.msgEl);
     this.selectChip(this.chip);
     this.setMode('straight');
@@ -91,20 +97,20 @@ export class RoulettePanel extends CasinoPanel {
     }
     for (let r = 0; r < 3; r++) {
       const index = (2 - r) as 0 | 1 | 2;
-      cell('2 TO 1', 'outside', `column${index}`, () => this.placeOutside('column', index), 14, r + 1);
+      cell('2 к 1', 'outside', `column${index}`, () => this.placeOutside('column', index), 14, r + 1);
     }
-    const dozens = ['1ST 12', '2ND 12', '3RD 12'];
+    const dozens = ['1-12', '13-24', '25-36'];
     for (let d = 0; d < 3; d++) {
       const index = d as 0 | 1 | 2;
       cell(dozens[d], 'outside', `dozen${index}`, () => this.placeOutside('dozen', index), 2 + d * 4, 4, 4);
     }
     const even: { label: string; kind: EvenMoneyKind; cls: string }[] = [
-      { label: '1 TO 18', kind: 'low', cls: 'outside' },
-      { label: 'EVEN', kind: 'even', cls: 'outside' },
-      { label: 'RED', kind: 'red', cls: 'red' },
-      { label: 'BLACK', kind: 'black', cls: 'black' },
-      { label: 'ODD', kind: 'odd', cls: 'outside' },
-      { label: '19 TO 36', kind: 'high', cls: 'outside' },
+      { label: '1-18', kind: 'low', cls: 'outside' },
+      { label: 'ЧЁТ', kind: 'even', cls: 'outside' },
+      { label: 'КРАСН.', kind: 'red', cls: 'red' },
+      { label: 'ЧЁРН.', kind: 'black', cls: 'black' },
+      { label: 'НЕЧЁТ', kind: 'odd', cls: 'outside' },
+      { label: '19-36', kind: 'high', cls: 'outside' },
     ];
     even.forEach((e, i) => cell(e.label, e.cls, e.kind, () => this.placeOutside(e.kind), 2 + i * 2, 5, 2));
     return grid;
@@ -114,11 +120,11 @@ export class RoulettePanel extends CasinoPanel {
     const side = this.div('rl-side');
     this.display = this.div('rl-display', '—');
     this.display.dataset.field = 'outcome';
-    this.totalEl = this.div('casino-label', 'On table: 0');
+    this.totalEl = this.div('casino-label', 'На столе: 0');
     this.betsList = this.div('rl-bets');
-    this.spinBtn = this.button('Spin', () => this.spin(), '', 'spin');
-    const undo = this.button('Undo', () => this.undo(), 'secondary small', 'undo');
-    const clear = this.button('Clear', () => this.clear(), 'secondary small', 'clear');
+    this.spinBtn = this.button('Крутить', () => this.spin(), '', 'spin');
+    const undo = this.button('Отменить', () => this.undo(), 'secondary small', 'undo');
+    const clear = this.button('Сброс', () => this.clear(), 'secondary small', 'clear');
     side.append(this.display, this.totalEl, this.betsList, this.row(this.spinBtn, undo, clear));
     return side;
   }
@@ -255,7 +261,7 @@ export class RoulettePanel extends CasinoPanel {
       line.append(Object.assign(document.createElement('span'), { textContent: describeBet(b) }), Object.assign(document.createElement('span'), { textContent: String(b.amount) }));
       this.betsList.appendChild(line);
     }
-    this.totalEl.textContent = `On table: ${total.toLocaleString('en-US')}`;
+    this.totalEl.textContent = `На столе: ${total.toLocaleString('ru-RU')}`;
     this.spinBtn.disabled = this.spinning || this.bets.length === 0;
   }
 
@@ -269,7 +275,7 @@ export class RoulettePanel extends CasinoPanel {
 
   spin(): void {
     if (this.spinning) return;
-    if (this.bets.length === 0) return this.fail('Place a bet first.');
+    if (this.bets.length === 0) return this.fail('Сначала сделай ставку.');
     const rigged = this.casino.rig.takeRoulette();
     const outcome = rigged ?? spinWheel(this.casino.rng);
     this.spinning = true;
@@ -277,7 +283,7 @@ export class RoulettePanel extends CasinoPanel {
     this.clearSelection();
     this.lastHit?.classList.remove('hit');
     this.spinBtn.disabled = true;
-    this.message('No more bets.', 'info');
+    this.message('Ставки больше не принимаются.', 'info');
     const seconds = CasinoConfig.roulette.spinSeconds;
     const audio = this.casino.game.audio;
     const loop = audio.loop('casino.roulette.spin.loop');

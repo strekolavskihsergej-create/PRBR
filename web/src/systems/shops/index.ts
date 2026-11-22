@@ -200,7 +200,7 @@ export class ShopSystem implements GameSystem, IShopsPeer {
     let text: string | null = null;
     switch (rt.def.kind) {
       case 'gun':
-        text = 'Browse weapons';
+        text = 'Посмотреть оружие';
         break;
       case 'convenience':
       case 'gas':
@@ -210,7 +210,7 @@ export class ShopSystem implements GameSystem, IShopsPeer {
         break;
       }
       case 'safehouse':
-        text = 'Save game';
+        text = 'Сохранить игру';
         break;
       default:
         text = null;
@@ -233,14 +233,14 @@ export class ShopSystem implements GameSystem, IShopsPeer {
     rt.staff(this.game, this.origin, this.rng, {
       onClerkShotgun: () => {
         this.game.audio.play('weapon.shotgun.reload');
-        this.game.events.emit('notification', { text: 'Clerk: "Not in my store!"', kind: 'warning' });
+        this.game.events.emit('notification', { text: 'Продавец: «Не в моём магазине!»', kind: 'warning' });
         this.game.events.emit('shops:hostile', { storeId: id, role: 'clerk' });
       },
-      onGuardWarning: () => this.game.events.emit('notification', { text: 'Guard: "Drop it. Now."', kind: 'warning' }),
+      onGuardWarning: () => this.game.events.emit('notification', { text: 'Охранник: «Брось. Живо».', kind: 'warning' }),
       onGuardHostile: () => this.game.events.emit('shops:hostile', { storeId: id, role: 'guard' }),
     });
     this.game.audio.play('store.bell');
-    if (rt.def.kind === 'gun') this.game.events.emit('notification', { text: `${name}: talk to the clerk to browse.`, kind: 'info' });
+    if (rt.def.kind === 'gun') this.game.events.emit('notification', { text: `${name}: поговори с продавцом, чтобы посмотреть товар.`, kind: 'info' });
   }
 
   private onExited(id: string): void {

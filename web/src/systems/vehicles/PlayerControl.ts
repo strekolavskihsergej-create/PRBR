@@ -94,7 +94,7 @@ export class PlayerControl {
       return;
     }
     const carjack = target.driver !== null || target.driverEntity !== null;
-    this.setPrompt(`${carjack ? 'Steal' : 'Enter'} ${target.archetype.name}`);
+    this.setPrompt(`${carjack ? 'Угнать' : 'Сесть в машину'}: ${target.archetype.name}`);
     if (input.wasPressed('KeyF')) this.beginEnter(target, carjack);
   }
 

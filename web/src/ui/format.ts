@@ -11,8 +11,8 @@ export function formatCashDelta(delta: number): string {
 
 /** `350 m` under a kilometre, `1.2 km` above. */
 export function formatDistance(meters: number): string {
-  if (meters < 1000) return `${Math.round(meters / 5) * 5} m`;
-  return `${(meters / 1000).toFixed(1)} km`;
+  if (meters < 1000) return `${Math.round(meters / 5) * 5} м`;
+  return `${(meters / 1000).toFixed(1)} км`;
 }
 
 export function formatDuration(seconds: number): string {
@@ -26,24 +26,24 @@ export function formatDuration(seconds: number): string {
 }
 
 const REASON_LABELS: Record<string, string> = {
-  hospital: 'Hospital bill',
-  bail: 'Bail',
-  pickup: 'Cash picked up',
-  chopshop: 'Vehicle sold',
-  chop_shop: 'Vehicle sold',
-  robbery: 'Store robbed',
-  rob_store: 'Store robbed',
-  rob_ped: 'Wallet taken',
-  mission: 'Mission reward',
-  casino: 'Casino',
-  chips: 'Casino chips',
-  shop: 'Purchase',
-  gunstore: 'Bullet Barn',
-  ammo: 'Ammunition',
-  food: 'Food',
-  respray: 'Respray',
-  debug: 'Debug',
-  test: 'Test',
+  hospital: 'Счёт из больницы',
+  bail: 'Залог',
+  pickup: 'Найдены деньги',
+  chopshop: 'Машина продана',
+  chop_shop: 'Машина продана',
+  robbery: 'Магазин обнесён',
+  rob_store: 'Магазин обнесён',
+  rob_ped: 'Забран бумажник',
+  mission: 'Награда за задание',
+  casino: 'Казино',
+  chips: 'Фишки казино',
+  shop: 'Покупка',
+  gunstore: 'Оружейный магазин',
+  ammo: 'Патроны',
+  food: 'Еда',
+  respray: 'Перекраска',
+  debug: 'Отладка',
+  test: 'Тест',
 };
 
 /** Turns an economy reason id into feed text; unknown ids are capitalised with underscores spaced. */
@@ -55,11 +55,12 @@ export function humaniseReason(reason: string): string {
 }
 
 const WEAPON_LABELS: Record<string, string> = {
-  pistol: 'Pistol',
-  smg: 'SMG',
-  shotgun: 'Shotgun',
-  rifle: 'Assault Rifle',
-  sniper: 'Sniper Rifle',
+  fists: 'Кулаки',
+  pistol: 'Пистолет',
+  smg: 'Пистолет-пулемёт',
+  shotgun: 'Дробовик',
+  rifle: 'Автомат',
+  sniper: 'Снайперская винтовка',
 };
 
 export function weaponLabel(id: string): string {
@@ -99,8 +100,8 @@ function span(text: string, color: string | null): Node {
 /** Stable hue from a name so a speaker keeps their color between lines. */
 export function nameColor(name: string): string {
   const key = name.trim().toLowerCase();
-  if (key === 'lucia') return 'var(--color-accent-pink)';
-  if (key === 'jason') return 'var(--color-accent-cyan)';
+  if (key === 'лусия' || key === 'lucia') return 'var(--color-accent-pink)';
+  if (key === 'джейсон' || key === 'jason') return 'var(--color-accent-cyan)';
   let h = 0;
   for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
   return `hsl(${h % 360} 85% 68%)`;

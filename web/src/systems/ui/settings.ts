@@ -57,8 +57,10 @@ export function applySettings(game: Game, s: Settings): void {
   game.audio.setBusVolume('master', s.masterVolume);
   game.audio.setBusVolume('sfx', s.sfxVolume);
   game.audio.setBusVolume('music', s.musicVolume);
-  if (game.renderer.shadowMap.enabled !== s.shadows) {
-    game.renderer.shadowMap.enabled = s.shadows;
+  // The phone profile never runs the shadow pass, whatever the stored setting says.
+  const shadows = s.shadows && (!game.touchDevice || Config.render.touchShadows);
+  if (game.renderer.shadowMap.enabled !== shadows) {
+    game.renderer.shadowMap.enabled = shadows;
     // Three caches per-material programs; forcing a recompile makes the toggle take effect.
     game.scene.traverse((o) => {
       const mesh = o as { material?: { needsUpdate?: boolean } | { needsUpdate?: boolean }[] };

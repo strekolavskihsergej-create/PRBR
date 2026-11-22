@@ -11,6 +11,10 @@ export const UiConfig = {
     width: 260,
     height: 200,
     cornerRadius: 6,
+    /** Round minimap in the top-left corner on phones and tablets. */
+    touchSize: 118,
+    touchZoomOnFoot: 1.1,
+    touchZoomAtSpeed: 0.55,
     /** Zoom on foot and at top speed (px per meter); blends by vehicle speed. */
     zoomOnFoot: 1.3,
     zoomAtSpeed: 0.6,

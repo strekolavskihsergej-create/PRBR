@@ -15,10 +15,10 @@ export interface ContactDef {
 }
 
 export const CONTACTS: Record<ContactId, ContactDef> = {
-  jason: { id: 'jason', name: 'Jason', landmarkId: 'safehouse', doorOffset: 6 },
-  manny: { id: 'manny', name: 'Manny Ochoa', landmarkId: 'chop_shop', doorOffset: 7 },
-  ray: { id: 'ray', name: 'Ray Tillman', landmarkId: 'waffle_hut', doorOffset: 6 },
-  dominic: { id: 'dominic', name: 'Dominic Reyes', landmarkId: 'casino', doorOffset: 7 },
+  jason: { id: 'jason', name: 'Джейсон', landmarkId: 'safehouse', doorOffset: 6 },
+  manny: { id: 'manny', name: 'Мэнни Очоа', landmarkId: 'chop_shop', doorOffset: 7 },
+  ray: { id: 'ray', name: 'Рэй Тиллман', landmarkId: 'waffle_hut', doorOffset: 6 },
+  dominic: { id: 'dominic', name: 'Доминик Рейес', landmarkId: 'casino', doorOffset: 7 },
 };
 
 export interface StoryMissionDef {
@@ -37,16 +37,16 @@ export interface StoryMissionDef {
 }
 
 export const STORY_MISSIONS: readonly StoryMissionDef[] = [
-  { id: 'm1', name: 'Release', contact: 'jason', markerLandmarkId: 'prison', markerOffset: 8, reward: 500, repeatable: false, blurb: 'Lucia walks free. Jason is waiting.' },
-  { id: 'm2', name: 'Gas Money', contact: 'jason', unlockedAfter: 'm1', reward: 300, repeatable: false, blurb: "We're broke. The Gellhorn gas station isn't." },
-  { id: 'm3', name: 'Repo', contact: 'manny', unlockedAfter: 'm2', reward: 1500, repeatable: false, blurb: 'A sports coupe at a Vice Beach hotel has a new owner.' },
-  { id: 'm4', name: 'Bad Debt', contact: 'manny', unlockedAfter: 'm3', reward: 800, repeatable: false, blurb: 'A debtor in Little Habana owes Manny. Collect.' },
-  { id: 'm5', name: 'Mud Club', contact: 'ray', unlockedAfter: 'm4', reward: 2000, repeatable: false, blurb: 'Run a package out to the Gator Pit in Grassrivers.' },
-  { id: 'm6', name: 'High Roller', contact: 'dominic', unlockedAfter: 'm5', reward: 2500, repeatable: false, blurb: 'Meet the inside man at Leonida Palms. Win big.' },
-  { id: 'm7', name: 'Heat', contact: 'dominic', unlockedAfter: 'm6', reward: 1000, repeatable: false, blurb: 'Find out how hard VCPD really hits back.' },
-  { id: 'm8', name: 'The Score', contact: 'jason', unlockedAfter: 'm7', reward: 25000, repeatable: false, blurb: 'Vice Rocks Jewelers. Jason. One shot.' },
-  { id: 'job_chopshop', name: 'Wanted Wheels', contact: 'manny', unlockedAfter: 'm8', reward: 3000, repeatable: true, blurb: "Bring Manny today's wanted ride." },
-  { id: 'job_robbery', name: 'Register Run', contact: 'ray', unlockedAfter: 'm8', reward: 500, repeatable: true, blurb: 'Knock over any store and get away clean.' },
+  { id: 'm1', name: 'Выход', contact: 'jason', markerLandmarkId: 'prison', markerOffset: 8, reward: 500, repeatable: false, blurb: 'Лусия выходит на свободу. Джейсон ждёт.' },
+  { id: 'm2', name: 'На бензин', contact: 'jason', unlockedAfter: 'm1', reward: 300, repeatable: false, blurb: 'Мы на мели. А заправка в Геллхорне — нет.' },
+  { id: 'm3', name: 'Перехват', contact: 'manny', unlockedAfter: 'm2', reward: 1500, repeatable: false, blurb: 'У спортивного купе с отеля на Вайс-Бич новый хозяин.' },
+  { id: 'm4', name: 'Должок', contact: 'manny', unlockedAfter: 'm3', reward: 800, repeatable: false, blurb: 'Должник в Литл-Хабане должен Мэнни. Собери.' },
+  { id: 'm5', name: 'Грязевой клуб', contact: 'ray', unlockedAfter: 'm4', reward: 2000, repeatable: false, blurb: 'Отвези посылку в «Гатор-Пит» в Грассриверсе.' },
+  { id: 'm6', name: 'Крупная ставка', contact: 'dominic', unlockedAfter: 'm5', reward: 2500, repeatable: false, blurb: 'Встреться со своим человеком в «Леонида-Палмс». Выиграй много.' },
+  { id: 'm7', name: 'Жара', contact: 'dominic', unlockedAfter: 'm6', reward: 1000, repeatable: false, blurb: 'Узнай, как сильно бьёт полиция Вайс-Сити.' },
+  { id: 'm8', name: 'Куш', contact: 'jason', unlockedAfter: 'm7', reward: 25000, repeatable: false, blurb: 'Ювелирный «Вайс Рокс», Джейсон. Один заход.' },
+  { id: 'job_chopshop', name: 'Угнанные колёса', contact: 'manny', unlockedAfter: 'm8', reward: 3000, repeatable: true, blurb: 'Пригони Мэнни машину из сегодняшнего списка.' },
+  { id: 'job_robbery', name: 'За кассой', contact: 'ray', unlockedAfter: 'm8', reward: 500, repeatable: true, blurb: 'Обнеси любой магазин и уйди чистым.' },
 ];
 
 export const STORY_BY_ID: ReadonlyMap<string, StoryMissionDef> = new Map(STORY_MISSIONS.map((m) => [m.id, m]));

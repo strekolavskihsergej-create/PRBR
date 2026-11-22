@@ -3,16 +3,32 @@ import './bottom-stack.css';
 import { el, setVisible, type UiComponent } from './dom';
 
 const KEY_LABELS: Record<string, string> = {
-  Space: 'SPACE',
+  Space: 'ПРОБЕЛ',
   ShiftLeft: 'SHIFT',
   Escape: 'ESC',
   ArrowUp: '\u2191',
   ArrowDown: '\u2193',
-  Mouse0: 'LMB',
-  Mouse2: 'RMB',
+  Mouse0: 'ЛКМ',
+  Mouse2: 'ПКМ',
   Tab: 'TAB',
   CapsLock: 'CAPS',
 };
+
+/** On a phone the hint names the on-screen button instead of a key nobody has. */
+const TOUCH_LABELS: Record<string, string> = {
+  KeyF: 'МАШИНА',
+  KeyE: 'ДЕЙСТВ.',
+  KeyM: 'КАРТА',
+  KeyQ: 'ГЕРОЙ',
+  Escape: 'МЕНЮ',
+  Space: 'ПРЫЖОК',
+  ArrowUp: 'ТЕЛ.',
+  CapsLock: 'СПОСОБН.',
+};
+
+function touchUi(): boolean {
+  return document.documentElement.classList.contains('touch-ui');
+}
 
 /** `[F] Enter vehicle` list from `state.prompts`; the DOM is rebuilt only when the joined text changes. */
 export class Prompts implements UiComponent {
@@ -46,6 +62,10 @@ export class Prompts implements UiComponent {
 
 /** 'KeyF' → 'F', 'Digit1' → '1', otherwise a friendly alias or the raw key. */
 function keyLabel(code: string): string {
+  if (touchUi()) {
+    const touch = TOUCH_LABELS[code];
+    if (touch) return touch;
+  }
   if (code.startsWith('Key') && code.length === 4) return code.charAt(3);
   if (code.startsWith('Digit') && code.length === 6) return code.charAt(5);
   return KEY_LABELS[code] ?? code.toUpperCase();

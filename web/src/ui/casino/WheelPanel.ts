@@ -19,14 +19,14 @@ export class WheelPanel extends CasinoPanel {
   lastSpin: WheelSpin | null = null;
 
   constructor(casino: CasinoSystem) {
-    super(casino, 'wheel', 'Lucky Wheel');
+    super(casino, 'wheel', 'Колесо удачи');
   }
 
   protected build(): void {
     this.display = this.div('lw-display');
-    this.label = this.div('lw-label', 'SPIN');
+    this.label = this.div('lw-label', 'КРУТИТЬ');
     this.label.dataset.field = 'prize';
-    this.sub = this.div('lw-sub', 'One free spin per day');
+    this.sub = this.div('lw-sub', 'Одно бесплатное вращение в день');
     this.display.append(this.label, this.sub);
     const grid = this.div('lw-segments');
     WHEEL_SEGMENTS.forEach((s, i) => {
@@ -36,7 +36,7 @@ export class WheelPanel extends CasinoPanel {
       grid.appendChild(el);
       this.segEls.push(el);
     });
-    this.spinBtn = this.button('Spin', () => this.spin(), '', 'spin');
+    this.spinBtn = this.button('Крутить', () => this.spin(), '', 'spin');
     this.body.append(this.display, grid, this.row(this.spinBtn), this.msgEl);
     this.casino.game.audio.play('ui.wheel.open');
     this.refreshAvailability();
@@ -54,7 +54,7 @@ export class WheelPanel extends CasinoPanel {
   private refreshAvailability(): void {
     const canSpin = this.casino.wheel.canSpin(this.casino.game.time.day);
     this.spinBtn.disabled = this.spinning || !canSpin;
-    if (!canSpin && !this.spinning) this.message('Come back tomorrow for another free spin.', 'info');
+    if (!canSpin && !this.spinning) this.message('Возвращайся завтра за новым бесплатным вращением.', 'info');
   }
 
   /** Returns false when today's spin is already used. */
@@ -62,14 +62,14 @@ export class WheelPanel extends CasinoPanel {
     if (this.spinning) return false;
     const day = this.casino.game.time.day;
     if (!this.casino.wheel.canSpin(day)) {
-      this.fail('Come back tomorrow.');
+      this.fail('Возвращайся завтра.');
       this.refreshAvailability();
       return false;
     }
     const rigged = this.casino.rig.takeWheel();
     const result = this.casino.wheel.spin(day, rigged ?? undefined);
     if (!result) {
-      this.fail('Come back tomorrow.');
+      this.fail('Возвращайся завтра.');
       return false;
     }
     this.lastSpin = result;

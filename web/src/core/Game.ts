@@ -71,6 +71,8 @@ export class Game {
   readonly systems = new SystemRegistry();
   readonly params: URLSearchParams;
   readonly nullAudio = new NullAudio();
+  /** Phone/tablet profile: lower resolution and no shadow pass. */
+  readonly touchDevice: boolean;
 
   ready = false;
   private accumulator = 0;
@@ -81,15 +83,16 @@ export class Game {
   constructor(readonly canvas: HTMLCanvasElement) {
     this.params = new URLSearchParams(window.location.search);
     this.renderer = new WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+    this.touchDevice = TouchControls.isSupported();
     // Phones need the headroom: a full-resolution buffer costs more than the sharper image is worth.
     this.renderer.setPixelRatio(
-      Math.min(window.devicePixelRatio, TouchControls.isSupported() ? 1.5 : Config.render.maxPixelRatio),
+      Math.min(window.devicePixelRatio, this.touchDevice ? Config.render.touchPixelRatio : Config.render.maxPixelRatio),
     );
     this.renderer.setSize(window.innerWidth, window.innerHeight, false);
     this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = Config.render.toneMappingExposure;
     this.renderer.outputColorSpace = SRGBColorSpace;
-    this.renderer.shadowMap.enabled = Config.render.shadows;
+    this.renderer.shadowMap.enabled = Config.render.shadows && (!this.touchDevice || Config.render.touchShadows);
     this.renderer.info.autoReset = false;
 
     this.viewCamera = new PerspectiveCamera(

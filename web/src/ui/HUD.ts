@@ -72,7 +72,7 @@ export class HUD implements UiComponent {
       this.abilityFill = el('div', 'hud-ability-fill');
       const bar = el('div', 'hud-ability-bar');
       bar.appendChild(this.abilityFill);
-      this.abilityRow.append(el('span', 'hud-ability-label', 'Ability'), bar);
+      this.abilityRow.append(el('span', 'hud-ability-label', 'Способность'), bar);
       this.el.appendChild(this.abilityRow);
     } else {
       this.abilityRow = null;
@@ -189,7 +189,7 @@ export class HUD implements UiComponent {
     if (chips === this.lastChips) return;
     this.lastChips = chips;
     setVisible(this.chipsEl, show);
-    if (show) setText(this.chipsEl, `${chips.toLocaleString('en-US')} CHIPS`);
+    if (show) setText(this.chipsEl, `${chips.toLocaleString('ru-RU')} ФИШЕК`);
   }
 
   private updateAbility(state: GameState): void {

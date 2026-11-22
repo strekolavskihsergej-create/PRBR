@@ -36,20 +36,20 @@ export const m8: MissionDef = {
     return [
       withCompanion(),
       cutscene(sceneOrbit('m8_start', safehouse, dialogue('m8_start'))),
-      goto(store, 6, 'Go to ~y~Vice Rocks Jewelers~y~ Downtown with Jason', { blip: 'jewelry' }),
+      goto(store, 6, 'Приезжай к ~y~«Вайс Рокс»~y~ в Даунтаун вместе с Джейсоном', { blip: 'jewelry' }),
       enterStore(() => counter !== null, (ctx) => {
         counter = counterFrom(ctx);
         ensureGuards(ctx, counter, guards);
       }),
-      lootGrab(() => counter, LOOT_SECONDS, LOOT_RADIUS, 'Fill the bag at the ~y~counter~y~'),
+      lootGrab(() => counter, LOOT_SECONDS, LOOT_RADIUS, 'Набей сумку у ~y~прилавка~y~'),
       leaveStore(),
       action((ctx) => {
         ctx.game.wanted?.setLevel(HEAT_LEVEL);
         const spot = parkingNear(ctx.game, marina, 60);
         getaway = spawnVehicle(ctx, 'sports', spot.pos, spot.heading, { color: 0xf2f2f2 });
-        ctx.game.ui?.notify('Dominic: "Boat leaves the marina in five minutes. Move."', 'warning');
+        ctx.game.ui?.notify('Доминик: «Катер уходит из марины через пять минут. Шевелись».', 'warning');
       }),
-      timed(goto(marina, 8, 'Get to the ~y~marina~y~ before the boat leaves', { blip: 'marina' }), GETAWAY_MINUTES * 60, 'the boat left without you'),
+      timed(goto(marina, 8, 'Доберись до ~y~марины~y~ до отхода катера', { blip: 'marina' }), GETAWAY_MINUTES * 60, 'катер ушёл без тебя'),
       action((ctx) => {
         ctx.game.wanted?.clear('mission');
         if (ctx.game.systems.has('player') && ctx.game.player.isMounted) ctx.game.vehicles?.exitCurrent();
@@ -57,7 +57,7 @@ export const m8: MissionDef = {
         getaway = null;
       }),
       cutscene(sceneOrbit('m8_end', marina, dialogue('m8_end'))),
-      action((ctx) => ctx.game.ui?.card('custom', 'THE END — LEONIDA', ctx.fast ? MissionsConfig.cards.fastSeconds : 6)),
+      action((ctx) => ctx.game.ui?.card('custom', 'КОНЕЦ — ЛЕОНИДА', ctx.fast ? MissionsConfig.cards.fastSeconds : 6)),
     ];
   },
 };
@@ -84,7 +84,7 @@ function ensureGuards(ctx: MissionContext, counter: V3, guards: IPed[]): void {
 function enterStore(entered: () => boolean, onEnter: (ctx: MissionContext) => void) {
   let off: (() => void) | null = null;
   return custom({
-    text: 'Walk into the ~y~jewelry store~y~',
+    text: 'Зайди в ~y~ювелирный магазин~y~',
     blipKind: 'jewelry',
     start(ctx) {
       if (ctx.game.state.interior === INTERIOR_ID) onEnter(ctx);
@@ -107,7 +107,7 @@ function enterStore(entered: () => boolean, onEnter: (ctx: MissionContext) => vo
 function leaveStore() {
   let left = false;
   return custom({
-    text: 'Get out of the ~y~store~y~',
+    text: 'Уходи из ~y~магазина~y~',
     update(ctx) {
       if (ctx.game.state.interior !== INTERIOR_ID) left = true;
       return left ? 'done' : 'running';

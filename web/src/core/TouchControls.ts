@@ -42,6 +42,9 @@ export class TouchControls {
   private aimOn = false;
   private weaponHeld = 0;
   private hidden = false;
+  /** True while the player sits in a car: the overlay swaps to gas / brake pedals. */
+  private driving = false;
+  private inVehicle = false;
   private raf = 0;
   private disposed = false;
 
@@ -93,6 +96,10 @@ export class TouchControls {
       { id: 'map', label: 'КАРТА', on: () => this.tap('KeyM') },
       { id: 'weapon', label: 'ОРУЖИЕ', on: () => this.cycleWeapon() },
       { id: 'pause', label: 'МЕНЮ', on: () => this.tap('Escape') },
+      // Vehicle pedals (only visible while driving).
+      { id: 'gas', label: 'ГАЗ', on: () => this.setHeld('KeyW'), off: () => this.clearHeld('KeyW') },
+      { id: 'brake', label: 'ТОРМОЗ', on: () => this.setHeld('KeyS'), off: () => this.clearHeld('KeyS') },
+      { id: 'handbrake', label: 'РУЧНИК', on: () => this.setHeld('Space'), off: () => this.clearHeld('Space') },
     ];
   }
 
@@ -161,10 +168,12 @@ export class TouchControls {
 
   private axisKeys(x: number, y: number): void {
     const dead = DEAD_ZONE;
+    // In a car the stick only steers; the pedals own throttle and brake.
+    const vertical = !this.driving;
     this.toggle('KeyD', x > dead);
     this.toggle('KeyA', x < -dead);
-    this.toggle('KeyW', y < -dead);
-    this.toggle('KeyS', y > dead);
+    this.toggle('KeyW', vertical && y < -dead);
+    this.toggle('KeyS', vertical && y > dead);
   }
 
   private toggle(code: string, on: boolean): void {
@@ -238,12 +247,27 @@ export class TouchControls {
   private tick(): void {
     if (this.disposed) return;
     this.raf = requestAnimationFrame(() => this.tick());
+    this.syncDriving();
     // The overlay must follow `isBlocked`: visible in gameplay, hidden under menus.
     const blocked = this.game.input.isBlocked;
     if (blocked !== this.hidden) {
       this.hidden = blocked;
       this.root.classList.toggle('tc-hidden', blocked);
       if (blocked) this.releaseAll();
+    }
+  }
+
+  /** Swaps between the on-foot and the driving button layout (and frees held keys). */
+  private syncDriving(): void {
+    const inVehicle = this.game.state.vehicle !== null;
+    if (inVehicle === this.inVehicle) return;
+    this.inVehicle = inVehicle;
+    this.driving = inVehicle;
+    this.root.classList.toggle('tc-driving', inVehicle);
+    // A key held on one layout must not stay down on the other.
+    this.releaseAll();
+    for (const btn of this.buttons) {
+      if (btn.spec.id === 'car') btn.el.textContent = inVehicle ? 'ВЫЙТИ' : 'МАШИНА';
     }
   }
 

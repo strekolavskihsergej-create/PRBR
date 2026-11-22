@@ -85,7 +85,7 @@ function corner(
 export const LANDMARKS: readonly LandmarkDef[] = [
   {
     id: 'safehouse',
-    name: 'Safehouse',
+    name: 'Убежище',
     kind: 'safehouse',
     district: 'littleHabana',
     style: 'apartment',
@@ -94,7 +94,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'hospital',
-    name: 'Vice General Hospital',
+    name: 'Городская больница Вайс-Сити',
     kind: 'hospital',
     district: 'downtown',
     style: 'hospital',
@@ -103,7 +103,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'police_downtown',
-    name: 'VCPD Downtown',
+    name: 'Полиция Даунтауна',
     kind: 'police',
     district: 'downtown',
     style: 'police',
@@ -112,7 +112,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'police_gellhorn',
-    name: 'VCPD Port Gellhorn',
+    name: 'Полиция Порт-Геллхорна',
     kind: 'police',
     district: 'portGellhorn',
     style: 'police',
@@ -121,7 +121,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'prison',
-    name: 'Leonida Penitentiary',
+    name: 'Тюрьма Леониды',
     kind: 'prison',
     district: 'portGellhorn',
     style: 'prison',
@@ -133,7 +133,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'casino',
-    name: 'Leonida Palms',
+    name: 'Казино «Леонида-Палмс»',
     kind: 'casino',
     district: 'downtown',
     style: 'casino',
@@ -142,7 +142,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'gunstore',
-    name: 'Bullet Barn',
+    name: 'Оружейный магазин',
     kind: 'gunstore',
     district: 'littleHabana',
     style: 'gunstore',
@@ -187,7 +187,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'gas_station',
-    name: 'Gellhorn Gas',
+    name: 'Заправка «Ксеро Газ»',
     kind: 'gas',
     district: 'portGellhorn',
     style: 'gasStation',
@@ -196,7 +196,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'waffle_hut',
-    name: 'Waffle Hut',
+    name: '«Вафельная хижина»',
     kind: 'food',
     district: 'portGellhorn',
     style: 'diner',
@@ -205,7 +205,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'jewelry',
-    name: 'Vice Rocks Jewelers',
+    name: 'Ювелирный «Вайс Рокс»',
     kind: 'jewelry',
     district: 'downtown',
     style: 'jewelry',
@@ -214,7 +214,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'bank',
-    name: 'Leonida Trust Bank',
+    name: 'Банк «Леонида Траст»',
     kind: 'bank',
     district: 'downtown',
     style: 'bank',
@@ -223,7 +223,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'respray',
-    name: 'Vice Sprays',
+    name: 'Перекраска «Вайс Спрейс»',
     kind: 'respray',
     district: 'littleHabana',
     style: 'respray',
@@ -232,7 +232,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'chop_shop',
-    name: 'Gellhorn Salvage (Chop Shop)',
+    name: '«Геллхорн Салвейдж» (разборка)',
     kind: 'chopshop',
     district: 'docks',
     style: 'chopShop',
@@ -241,7 +241,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'marina',
-    name: 'Vice Marina',
+    name: 'Марина Вайс-Сити',
     kind: 'marina',
     district: 'docks',
     style: 'marina',
@@ -253,7 +253,7 @@ export const LANDMARKS: readonly LandmarkDef[] = [
   },
   {
     id: 'mud_club',
-    name: 'Gator Pit Mud Club',
+    name: 'Грязевой клуб «Гатор-Пит»',
     kind: 'club',
     district: 'grassrivers',
     style: 'club',

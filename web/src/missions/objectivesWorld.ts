@@ -23,7 +23,7 @@ function warnOnce(key: string, message: string): void {
  * the objective arms on the first star and otherwise waits a short grace period outdoors
  * before accepting "no cops at all".
  */
-export function escapeWanted(text = 'Lose the ~y~cops~y~'): Objective {
+export function escapeWanted(text = 'Сбрось ~y~полицию~y~'): Objective {
   let armed = false;
   let calm = 0;
   return custom({
@@ -139,7 +139,7 @@ export function winAtCasino(amount: number, target: V3 | null, text: string): Ob
       const cash = ctx.game.economy?.cash ?? Infinity;
       if (casino && casino.chips <= 0 && cash < MissionsConfig.casino.brokeCash && net < 0) {
         ctx.game.ui?.notify(MissionsConfig.casino.brokeTaunt, 'warning');
-        ctx.fail('you went broke');
+        ctx.fail('ты проигрался');
         return 'failed';
       }
       return 'running';
@@ -182,7 +182,7 @@ export function intimidateOrKill(target: () => IPed | null, seconds: number, ran
       if (result) return 'done';
       const ped = target();
       if (!ped) {
-        ctx.fail('target lost');
+        ctx.fail('цель упущена');
         return 'failed';
       }
       if (!tracker.isLive(ped)) {
@@ -191,14 +191,14 @@ export function intimidateOrKill(target: () => IPed | null, seconds: number, ran
           result = 'killed';
           return 'done';
         }
-        ctx.fail('target lost');
+        ctx.fail('цель упущена');
         return 'failed';
       }
       const p = playerPos(ctx);
       if (!p) return 'running';
       const dist = horizontal(p, ped.position);
       if (dist > MissionsConfig.targetLostDistance) {
-        ctx.fail('target lost');
+        ctx.fail('цель упущена');
         return 'failed';
       }
       const weapons = ctx.game.weapons;
@@ -239,7 +239,7 @@ export function lootGrab(counter: () => V3 | null, seconds: number, radius: numb
       const p = playerPos(ctx);
       const near = !!c && !!p && horizontal(p, c) <= radius;
       if (near) progress += dt / seconds;
-      ctx.game.ui?.progressBar.show('Filling bag', Math.min(1, progress));
+      ctx.game.ui?.progressBar.show('Набиваем сумку', Math.min(1, progress));
       return progress >= 1 ? 'done' : 'running';
     },
     skip() {

@@ -9,5 +9,5 @@ export const RobberyConfig = {
   shotCut: 0.4,
   /** ...at most this many times. */
   maxShots: 2,
-  clerkLines: ['"Take it, take it all!"', '"Please, I have a cat!"', '"The safe is on a timer, I swear!"', '"Just don\'t shoot, man."'],
+  clerkLines: ['«Бери, бери всё!»', '«Пожалуйста, у меня кот!»', '«Сейф на таймере, честное слово!»', '«Только не стреляй, мужик».'],
 } as const;

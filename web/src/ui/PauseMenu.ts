@@ -46,25 +46,25 @@ export class PauseMenu implements UiComponent {
     this.el = el('div', 'pause');
     this.el.hidden = true;
     const left = el('div', 'pause-left');
-    left.append(el('h1', 'menu-heading', 'Leonida'), el('div', 'menu-subheading', 'Paused'));
+    left.append(el('h1', 'menu-heading', 'Leonida'), el('div', 'menu-subheading', 'Пауза'));
     const buttons = el('div', 'pause-buttons');
     const items: HTMLButtonElement[] = [
-      this.button(buttons, 'Resume', () => {
+      this.button(buttons, 'Продолжить', () => {
         actions.resume();
         actions.relockPointer();
       }),
-      this.button(buttons, 'Map', () => actions.openMap()),
-      this.button(buttons, 'Stats', () => this.showPanel('stats')),
-      this.button(buttons, 'Settings', () => this.showPanel('settings')),
-      this.button(buttons, 'Save', () => this.save()),
-      this.button(buttons, 'Load', () => this.load()),
-      this.button(buttons, 'Controls', () => this.showPanel('controls')),
-      this.button(buttons, 'Abort mission', () => {
+      this.button(buttons, 'Карта', () => actions.openMap()),
+      this.button(buttons, 'Статистика', () => this.showPanel('stats')),
+      this.button(buttons, 'Настройки', () => this.showPanel('settings')),
+      this.button(buttons, 'Сохранить', () => this.save()),
+      this.button(buttons, 'Загрузить', () => this.load()),
+      this.button(buttons, 'Управление', () => this.showPanel('controls')),
+      this.button(buttons, 'Прервать задание', () => {
         game.missions?.abort();
         actions.resume();
         actions.relockPointer();
       }),
-      this.button(buttons, 'Quit to title', () => actions.quitToTitle()),
+      this.button(buttons, 'Выйти в меню', () => actions.quitToTitle()),
     ];
     this.abortButton = items[items.length - 2];
     this.refreshAbort();
@@ -76,20 +76,20 @@ export class PauseMenu implements UiComponent {
     const right = el('div', 'pause-right');
     this.settings = new SettingsPanel(game);
     this.statRows = [
-      { label: 'Cash', value: () => formatCash(game.state.cash) },
-      { label: 'Cash earned', value: () => formatCash(game.state.stats.cashEarned ?? 0) },
-      { label: 'Cash spent', value: () => formatCash(game.state.stats.cashSpent ?? 0) },
-      { label: 'Kills', value: () => `${game.state.stats.kills ?? 0}` },
-      { label: 'Shots fired', value: () => `${game.state.stats.shotsFired ?? 0}` },
-      { label: 'Missions passed', value: () => `${game.state.stats.missionsPassed ?? 0}` },
-      { label: 'Heat', value: () => `${Math.round(game.wanted?.heat ?? 0)} / 100` },
-      { label: 'Time played', value: () => formatDuration(game.time.realElapsed) },
-      { label: 'Day', value: () => `${game.time.day}` },
+      { label: 'Наличные', value: () => formatCash(game.state.cash) },
+      { label: 'Заработано', value: () => formatCash(game.state.stats.cashEarned ?? 0) },
+      { label: 'Потрачено', value: () => formatCash(game.state.stats.cashSpent ?? 0) },
+      { label: 'Убийств', value: () => `${game.state.stats.kills ?? 0}` },
+      { label: 'Выстрелов', value: () => `${game.state.stats.shotsFired ?? 0}` },
+      { label: 'Заданий пройдено', value: () => `${game.state.stats.missionsPassed ?? 0}` },
+      { label: 'Розыск', value: () => `${Math.round(game.wanted?.heat ?? 0)} / 100` },
+      { label: 'Время в игре', value: () => formatDuration(game.time.realElapsed) },
+      { label: 'День', value: () => `${game.time.day}` },
     ];
     this.panels = {
-      stats: this.panelShell('Stats', this.statsTable()),
-      settings: this.panelShell('Settings', this.settings.el),
-      controls: this.panelShell('Controls', this.controlsTable()),
+      stats: this.panelShell('Статистика', this.statsTable()),
+      settings: this.panelShell('Настройки', this.settings.el),
+      controls: this.panelShell('Управление', this.controlsTable()),
     };
     right.append(this.panels.stats, this.panels.settings, this.panels.controls);
     this.el.append(left, right);
@@ -126,7 +126,7 @@ export class PauseMenu implements UiComponent {
 
   private controlsTable(): HTMLElement {
     const wrap = el('div');
-    wrap.append(controlsSection('On foot', CONTROLS_ON_FOOT), controlsSection('In vehicle', CONTROLS_VEHICLE));
+    wrap.append(controlsSection('Пешком', CONTROLS_ON_FOOT), controlsSection('В машине', CONTROLS_VEHICLE));
     return wrap;
   }
 
@@ -151,20 +151,20 @@ export class PauseMenu implements UiComponent {
   }
 
   private save(): void {
-    if (!this.game.save.save()) this.actions.notify('Save failed', 'warning');
+    if (!this.game.save.save()) this.actions.notify('Не удалось сохранить', 'warning');
     else this.game.audio.play('ui.save');
   }
 
   private load(): void {
     if (!this.game.save.hasSave()) {
-      this.actions.notify('No saved game', 'warning');
+      this.actions.notify('Сохранений нет', 'warning');
       return;
     }
     if (this.game.save.load()) {
       this.game.audio.play('ui.load');
-      this.actions.notify('Game loaded', 'info');
+      this.actions.notify('Игра загружена', 'info');
       this.actions.resume();
-    } else this.actions.notify('Load failed', 'warning');
+    } else this.actions.notify('Не удалось загрузить', 'warning');
   }
 
   show(): void {
@@ -174,7 +174,7 @@ export class PauseMenu implements UiComponent {
     this.refreshAbort();
     this.showPanel('stats');
     this.nav.select(0, false);
-    setText(this.clockEl, `${this.game.time.clockLabel}  ·  Day ${this.game.time.day}`);
+    setText(this.clockEl, `${this.game.time.clockLabel}  ·  День ${this.game.time.day}`);
   }
 
   hide(): void {

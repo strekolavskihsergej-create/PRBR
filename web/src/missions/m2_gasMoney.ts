@@ -21,8 +21,8 @@ export const m2: MissionDef = {
     return [
       withCompanion(),
       cutscene(sceneTalk('m2_start', dialogue('m2_start'))),
-      goto(station, 8, 'Drive to ~y~Gellhorn Gas~y~ in Port Gellhorn', { blip: 'gas' }),
-      robStore('gas_station', station, 'Rob the ~y~register~y~ — walk in and aim at the clerk'),
+      goto(station, 8, 'Доезжай до ~y~заправки~y~ в Порт-Геллхорне', { blip: 'gas' }),
+      robStore('gas_station', station, 'Обнеси ~y~кассу~y~ — зайди внутрь и прицелься в продавца'),
       escapeWanted(),
       cutscene(sceneTalk('m2_done', dialogue('m2_done'))),
     ];

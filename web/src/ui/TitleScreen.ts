@@ -28,7 +28,7 @@ export class TitleScreen implements UiComponent {
     const touch = TouchControls.isSupported();
     this.el = el('div', touch ? 'title title-touch' : 'title');
     this.el.hidden = true;
-    this.el.append(el('div', 'title-logo', 'Leonida'), el('div', 'title-sub', 'Vice City, Leonida'));
+    this.el.append(el('div', 'title-logo', 'Leonida'), el('div', 'title-sub', 'Вайс-Сити, Леонида'));
     const buttons = el('div', 'title-buttons');
     const newGame = el('button', 'menu-button', touch ? 'Новая игра' : 'New Game');
     newGame.addEventListener('click', () => actions.newGame());
@@ -42,9 +42,9 @@ export class TitleScreen implements UiComponent {
     if (touch) {
       left.append('Стик слева — движение · Свайп по экрану — обзор · Кнопки справа — действия');
     } else {
-      left.append(key('W A S D'), 'Move  ', key('Mouse'), 'Look  ', key('F'), 'Enter vehicle  ', key('M'), 'Map  ', key('Esc'), 'Pause');
+      left.append(key('W A S D'), 'Движение  ', key('Мышь'), 'Обзор  ', key('F'), 'В машину  ', key('M'), 'Карта  ', key('Esc'), 'Пауза');
     }
-    footer.append(left, el('span', undefined, 'Non-commercial fan project'));
+    footer.append(left, el('span', undefined, 'Некоммерческий фанатский проект'));
     this.el.append(buttons, footer);
   }
 

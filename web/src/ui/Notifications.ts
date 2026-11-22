@@ -33,7 +33,7 @@ export class Notifications implements UiComponent {
         if (Math.abs(e.delta) < N.moneyThreshold) return;
         this.post(humaniseReason(e.reason), 'money', e.delta);
       }),
-      game.events.on('save:saved', () => this.post('Game saved', 'info')),
+      game.events.on('save:saved', () => this.post('Игра сохранена', 'info')),
     );
   }
 

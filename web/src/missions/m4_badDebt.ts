@@ -26,7 +26,7 @@ export const m4: MissionDef = {
   build() {
     let debtor: IPed | null = null;
     let sedan: IVehicle | null = null;
-    const beat = intimidateOrKill(() => debtor, 2, 15, 'Aim at the ~y~debtor~y~ for 2 seconds, or kill him');
+    const beat = intimidateOrKill(() => debtor, 2, 15, 'Прицелься в ~y~должника~y~ на 2 секунды или убей его');
     return [
       cutscene(sceneTalk('m4_start', dialogue('m4_start'))),
       action((ctx) => {
@@ -39,7 +39,7 @@ export const m4: MissionDef = {
         debtor = spawnPed(ctx, 'business', spot, { brain: new DebtorBrain(() => sedan, route) });
       }),
       custom({
-        text: 'Find the ~y~debtor~y~ in Little Habana',
+        text: 'Найди ~y~должника~y~ в Литл-Хабане',
         target: () => debtor?.position ?? null,
         update(ctx) {
           const p = playerPos(ctx);
@@ -55,7 +55,7 @@ export const m4: MissionDef = {
       action((ctx) => {
         const killed = beat.result() === 'killed';
         ctx.reward = killed ? REWARD_KILLED : REWARD_INTIMIDATED;
-        if (!killed && debtor) ctx.game.ui?.notify('The debtor paid up', 'money');
+        if (!killed && debtor) ctx.game.ui?.notify('Должник заплатил', 'money');
         // He drove off: the sedan must not end up as a phantom parked car with a scripted driver.
         if (sedan && sedan.isAlive) sedan.setDriver(null);
       }),

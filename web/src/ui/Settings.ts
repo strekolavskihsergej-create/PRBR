@@ -21,13 +21,22 @@ export class SettingsPanel {
     this.el = el('div', 'settings');
     const { sensitivityMin, sensitivityMax } = UiConfig.settings;
     this.el.append(
-      this.slider('Mouse sensitivity', 'mouseSensitivity', sensitivityMin, sensitivityMax, (v) => `${Math.round((v / sensitivityMax) * 100)}`),
-      this.slider('Master volume', 'masterVolume', 0, 1, percent),
-      this.slider('Effects volume', 'sfxVolume', 0, 1, percent),
-      this.slider('Music volume', 'musicVolume', 0, 1, percent),
-      this.toggle('Aim assist', 'aimAssist'),
-      this.toggle('Shadows', 'shadows'),
-      el('div', 'settings-note', 'Settings apply immediately and persist between sessions.'),
+      this.slider('Чувствительность', 'mouseSensitivity', sensitivityMin, sensitivityMax, (v) => `${Math.round((v / sensitivityMax) * 100)}`),
+      this.slider('Общая громкость', 'masterVolume', 0, 1, percent),
+      this.slider('Звуки', 'sfxVolume', 0, 1, percent),
+      this.slider('Музыка', 'musicVolume', 0, 1, percent),
+      this.toggle('Помощь в прицеливании', 'aimAssist'),
+    );
+    // Phones always run with the shadow pass off, so the switch is not offered there.
+    if (!game.touchDevice) this.el.appendChild(this.toggle('Тени', 'shadows'));
+    this.el.append(
+      el(
+        'div',
+        'settings-note',
+        game.touchDevice
+          ? 'Изменения применяются сразу и сохраняются.'
+          : 'Изменения применяются сразу и сохраняются между запусками.',
+      ),
     );
   }
 
@@ -59,7 +68,7 @@ export class SettingsPanel {
     const row = el('div', 'settings-row');
     const button = el('button', 'settings-toggle');
     const render = (): void => {
-      button.textContent = this.data[key] ? 'ON' : 'OFF';
+      button.textContent = this.data[key] ? 'ВКЛ' : 'ВЫКЛ';
       button.classList.toggle('on', this.data[key]);
     };
     render();

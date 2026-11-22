@@ -69,7 +69,7 @@ export class InteriorsSystem implements GameSystem {
     if (this.framework.current) {
       const exit = this.framework.currentExitTrigger();
       const near = exit !== null && exit.distanceToSquared(pos) < Config.interiors.doorRadius ** 2 * 1.5;
-      this.setPrompt(near ? 'Leave' : null);
+      this.setPrompt(near ? 'Выйти' : null);
       if (near && this.game.input.wasPressed('KeyE')) void this.framework.exit();
       return;
     }

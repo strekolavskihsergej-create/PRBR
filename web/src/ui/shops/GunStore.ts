@@ -48,11 +48,11 @@ export class GunStorePanel {
     this.el = el('div', 'shop-panel');
     const win = el('div', 'shop-window');
     const header = el('div', 'shop-header');
-    header.append(el('div', 'shop-title', 'Bullet Barn'), (this.cashEl = el('div', 'shop-cash')));
+    header.append(el('div', 'shop-title', 'Оружейный магазин'), (this.cashEl = el('div', 'shop-cash')));
     this.list = el('div', 'shop-list');
     const footer = el('div', 'shop-footer');
     this.msgEl = el('div', 'shop-msg');
-    footer.append(this.msgEl, el('div', '', '↑↓ browse · Enter buy · Backspace leave'));
+    footer.append(this.msgEl, el('div', '', '↑↓ выбор · Enter купить · Backspace выйти'));
     win.append(header, this.list, footer);
     this.el.appendChild(win);
     this.nav.onMove = () => this.game.audio.play('ui.blip');

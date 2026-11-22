@@ -11,15 +11,15 @@ const chop = STORY_BY_ID.get('job_chopshop')!;
 const rob = STORY_BY_ID.get('job_robbery')!;
 
 const NAMES: Record<VehicleArchetypeId, string> = {
-  sedan: 'sedan',
-  sports: 'sports coupe',
-  muscle: 'muscle car',
-  suv: 'SUV',
-  pickup: 'pickup',
-  van: 'van',
-  taxi: 'taxi',
-  police: 'cruiser',
-  swat: 'SWAT truck',
+  sedan: 'седан',
+  sports: 'спортивное купе',
+  muscle: 'маслкар',
+  suv: 'внедорожник',
+  pickup: 'пикап',
+  van: 'фургон',
+  taxi: 'такси',
+  police: 'полицейский круизер',
+  swat: 'броневик СОБР',
 };
 
 /** Repeatable after the finale: bring Manny the chop shop's wanted archetype. */
@@ -39,7 +39,7 @@ export const jobChopShop: MissionDef = {
     return [
       cutscene(sceneTalk('job_chopshop', dialogue('job_chopshop'))),
       custom({
-        text: `Steal a ~y~${NAMES[wanted]}~y~`,
+        text: `Угони ~y~${NAMES[wanted]}~y~`,
         blipKind: 'vehicle',
         update(c) {
           const v = playerVehicle(c);
@@ -56,7 +56,7 @@ export const jobChopShop: MissionDef = {
           if (v) forceMount(c, v);
         },
       }),
-      goto(dropoff, 6, `Deliver the ~y~${NAMES[wanted]}~y~ to Gellhorn Salvage`, { vehicle: () => ride, blip: 'chopshop' }),
+      goto(dropoff, 6, `Пригони ~y~${NAMES[wanted]}~y~ в «Геллхорн Салвейдж»`, { vehicle: () => ride, blip: 'chopshop' }),
       action((c) => {
         if (ride) c.reward = Math.max(chop.reward, Math.round(peer?.valueOf(ride) ?? chop.reward));
         if (c.game.systems.has('player') && c.game.player.isMounted) c.game.vehicles?.exitCurrent();
@@ -79,9 +79,9 @@ export const jobRobbery: MissionDef = {
   build() {
     return [
       cutscene(sceneTalk('job_robbery', dialogue('job_robbery'))),
-      robStore(null, null, 'Rob ~y~any store~y~ — aim at the clerk behind the register'),
+      robStore(null, null, 'Обнеси ~y~любой магазин~y~ — прицелься в продавца за кассой'),
       escapeWanted(),
-      action((c) => c.game.ui?.notify('Ray: "Clean. Come back tomorrow."', 'info')),
+      action((c) => c.game.ui?.notify('Рэй: «Чисто. Заходи завтра».', 'info')),
     ];
   },
 };

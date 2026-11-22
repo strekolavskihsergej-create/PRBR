@@ -28,8 +28,8 @@ const chips = (amount: number, weight: number): WheelSegment => ({
   label: `${amount.toLocaleString('en-US')} CHIPS`,
   color: '#35e6ff',
 });
-const mystery: WheelSegment = { prize: { kind: 'mystery' }, weight: 5, label: 'MYSTERY', color: '#a35bff' };
-const vehicle: WheelSegment = { prize: { kind: 'vehicle' }, weight: 1, label: 'SPORTS CAR', color: '#ff4fa3' };
+const mystery: WheelSegment = { prize: { kind: 'mystery' }, weight: 5, label: 'СЮРПРИЗ', color: '#a35bff' };
+const vehicle: WheelSegment = { prize: { kind: 'vehicle' }, weight: 1, label: 'СПОРТКАР', color: '#ff4fa3' };
 
 export const WHEEL_SEGMENTS: readonly WheelSegment[] = [
   cash(500, 10, '#4ee06a'),

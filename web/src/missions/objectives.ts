@@ -90,7 +90,7 @@ export function goto(pos: V3, radius: number, text: string, opts: GotoOptions = 
       if (opts.vehicle) {
         const v = opts.vehicle();
         if (vehicleGone(v)) {
-          ctx.fail('vehicle destroyed');
+          ctx.fail('машина уничтожена');
           return 'failed';
         }
         if (playerVehicle(ctx) !== v) return 'running';
@@ -117,7 +117,7 @@ export function enterVehicle(ref: () => IVehicle | null, text: string): Objectiv
     update(ctx) {
       const v = ref();
       if (vehicleGone(v)) {
-        ctx.fail('vehicle destroyed');
+        ctx.fail('машина уничтожена');
         return 'failed';
       }
       return playerVehicle(ctx) === v ? 'done' : 'running';

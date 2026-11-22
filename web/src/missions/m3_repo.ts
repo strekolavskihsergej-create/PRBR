@@ -33,9 +33,9 @@ export const m3: MissionDef = {
         coupe = spawnVehicle(ctx, 'sports', spot.pos, spot.heading, { color: 0xd41c2c, driver: new IdleDriver() });
         if (coupe) (coupe as { driverTypeId?: string | null }).driverTypeId = 'business';
       }),
-      enterVehicle(() => coupe, 'Steal the ~y~red coupe~y~ from the Vice Beach hotel lot'),
-      escapeWanted('Lose the ~y~cops~y~ before Manny will see you'),
-      deliver(() => coupe, dropoff, 6, 'Deliver the coupe to ~y~Gellhorn Salvage~y~ at the docks'),
+      enterVehicle(() => coupe, 'Угони ~y~красное купе~y~ с парковки отеля в Вайс-Бич'),
+      escapeWanted('Сбрось ~y~полицию~y~, иначе Мэнни не станет говорить'),
+      deliver(() => coupe, dropoff, 6, 'Отгони купе в ~y~Геллхорн Салвейдж~y~ в доках'),
       action((ctx) => {
         if (ctx.game.systems.has('player') && ctx.game.player.isMounted) ctx.game.vehicles?.exitCurrent();
         if (coupe) ctx.game.vehicles?.despawn(coupe);

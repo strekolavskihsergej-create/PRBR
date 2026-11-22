@@ -30,13 +30,13 @@ export const m1: MissionDef = {
       }),
       withCompanion(),
       cutscene(sceneOrbit('m1_gate', forwardOf(gate.pos, gate.heading, 3), dialogue('m1_gate'))),
-      enterVehicle(() => car, "Get in ~y~Jason's car~y~"),
-      goto(safehouse, 7, 'Drive to the ~y~safehouse~y~ in Little Habana', { vehicle: () => car, blip: 'safehouse' }),
+      enterVehicle(() => car, 'Садись в ~y~машину Джейсона~y~'),
+      goto(safehouse, 7, 'Доезжай до ~y~убежища~y~ в Литл-Хабане', { vehicle: () => car, blip: 'safehouse' }),
       action((ctx) => {
         if (ctx.game.systems.has('player') && ctx.game.player.isMounted) ctx.game.vehicles?.exitCurrent();
       }),
       cutscene(sceneOrbit('m1_safehouse', safehouse, dialogue('m1_safehouse'))),
-      action((ctx) => ctx.game.ui?.notify('Safehouse unlocked — sleep here to save', 'info')),
+      action((ctx) => ctx.game.ui?.notify('Убежище открыто — спи здесь, чтобы сохраниться', 'info')),
     ];
   },
 };

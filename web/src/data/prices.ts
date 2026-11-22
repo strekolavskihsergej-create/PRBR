@@ -39,9 +39,9 @@ export interface FoodDef {
 }
 
 export const FOOD: Readonly<Record<FoodId, FoodDef>> = {
-  hotdog: { id: 'hotdog', name: 'Hot Dog', price: 10, heal: 25 },
-  waffle: { id: 'waffle', name: 'Waffle Stack', price: 15, heal: 50 },
-  snack: { id: 'snack', name: 'Gas Station Snack', price: 5, heal: 15 },
+  hotdog: { id: 'hotdog', name: 'Хот-дог', price: 10, heal: 25 },
+  waffle: { id: 'waffle', name: 'Гора вафель', price: 15, heal: 50 },
+  snack: { id: 'snack', name: 'Снек с заправки', price: 5, heal: 15 },
 };
 
 export const RESPRAY = {

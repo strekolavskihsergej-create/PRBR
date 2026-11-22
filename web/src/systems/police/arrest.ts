@@ -46,7 +46,7 @@ export class Arrest {
       this.timer += dt;
       if (!this.prompted) {
         this.prompted = true;
-        game.ui?.prompt(PROMPT_KEY, 'Freeze! Hands where I can see them');
+        game.ui?.prompt(PROMPT_KEY, 'Стоять! Руки на виду!');
       }
       if (this.timer >= K.arrestSeconds) this.bust();
     } else {

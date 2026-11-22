@@ -94,7 +94,7 @@ export function evaluate(reels: SlotReels, bet: number): SlotResult {
   if (!isValidBet(bet)) throw new Error(`slots: bet ${bet} not in ${SLOT_BETS.join('/')}`);
   const [a, b, c] = reels;
   let multiplier = 0;
-  let label = 'No win';
+  let label = 'Без выигрыша';
   let jackpot = false;
   if (a === b && b === c) {
     switch (a) {
@@ -105,24 +105,24 @@ export function evaluate(reels: SlotReels, bet: number): SlotResult {
         break;
       case 'gator':
         multiplier = SLOT_PAYTABLE.threeGators;
-        label = 'Three gators';
+        label = 'Три гатора';
         break;
       case 'seven':
         multiplier = SLOT_PAYTABLE.threeSevens;
-        label = 'Three sevens';
+        label = 'Три семёрки';
         break;
       case 'bar':
         multiplier = SLOT_PAYTABLE.threeBars;
-        label = 'Three bars';
+        label = 'Три BAR';
         break;
       case 'cherry':
         multiplier = SLOT_PAYTABLE.threeCherries;
-        label = 'Three cherries';
+        label = 'Три вишни';
         break;
     }
   } else if (Number(a === 'cherry') + Number(b === 'cherry') + Number(c === 'cherry') === 2) {
     multiplier = SLOT_PAYTABLE.twoCherries;
-    label = 'Two cherries';
+    label = 'Две вишни';
   }
   return { reels, bet, multiplier, payout: multiplier * bet, label, jackpot };
 }

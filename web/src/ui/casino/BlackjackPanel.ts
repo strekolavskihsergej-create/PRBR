@@ -5,11 +5,11 @@ import { CasinoPanel } from './Panel';
 
 const DEAL_STEP_MS = 260;
 const OUTCOME_TEXT: Record<HandOutcome, string> = {
-  blackjack: 'BLACKJACK! Pays 3 to 2',
-  win: 'You win',
-  push: 'Push',
-  lose: 'Dealer wins',
-  bust: 'Bust',
+  blackjack: 'БЛЭКДЖЕК! Платит 3 к 2',
+  win: 'Вы выиграли',
+  push: 'Ничья',
+  lose: 'Дилер выиграл',
+  bust: 'Перебор',
 };
 
 /**
@@ -34,7 +34,7 @@ export class BlackjackPanel extends CasinoPanel {
     readonly table: Blackjack,
     tier: 'low' | 'high',
   ) {
-    super(casino, `blackjack-${tier}`, `Blackjack  $${table.limits.min.toLocaleString('en-US')} – $${table.limits.max.toLocaleString('en-US')}`);
+    super(casino, `blackjack-${tier}`, `Блэкджек  $${table.limits.min.toLocaleString('ru-RU')} – $${table.limits.max.toLocaleString('ru-RU')}`);
     this.bet = table.limits.min;
   }
 
@@ -54,19 +54,19 @@ export class BlackjackPanel extends CasinoPanel {
     this.betInput.value = String(this.bet);
     this.betInput.dataset.field = 'bet';
     this.betInput.addEventListener('change', () => this.setBet(Number(this.betInput.value)));
-    const betRow = this.row('Bet', this.betInput);
+    const betRow = this.row('Ставка', this.betInput);
     for (const amount of this.betPresets()) {
       betRow.appendChild(this.button(amount.toLocaleString('en-US'), () => this.setBet(amount), 'secondary small'));
     }
-    this.dealBtn = this.button('Deal', () => this.deal(), '', 'deal');
+    this.dealBtn = this.button('Сдать', () => this.deal(), '', 'deal');
     betRow.appendChild(this.dealBtn);
 
     this.actionBtns = {
-      hit: this.button('Hit', () => this.hit(), '', 'hit'),
-      stand: this.button('Stand', () => this.stand(), '', 'stand'),
-      double: this.button('Double', () => this.double(), '', 'double'),
-      split: this.button('Split', () => this.split(), '', 'split'),
-      newHand: this.button('New hand', () => this.newHand(), 'secondary', 'new-hand'),
+      hit: this.button('Ещё', () => this.hit(), '', 'hit'),
+      stand: this.button('Хватит', () => this.stand(), '', 'stand'),
+      double: this.button('Удвоить', () => this.double(), '', 'double'),
+      split: this.button('Сплит', () => this.split(), '', 'split'),
+      newHand: this.button('Новая раздача', () => this.newHand(), 'secondary', 'new-hand'),
     };
     const actions = this.row(this.actionBtns.hit, this.actionBtns.stand, this.actionBtns.double, this.actionBtns.split, this.actionBtns.newHand);
     this.body.append(felt, betRow, actions, this.msgEl);
@@ -101,7 +101,7 @@ export class BlackjackPanel extends CasinoPanel {
   deal(): void {
     if (this.animating || this.table.state.phase !== 'betting') return;
     if (!this.table.isValidBet(this.bet)) return this.fail(`Bet must be between ${this.table.limits.min} and ${this.table.limits.max}.`);
-    if (!this.casino.takeChips(this.bet)) return this.fail('Not enough chips. Visit the cashier.');
+    if (!this.casino.takeChips(this.bet)) return this.fail('Мало фишек. Загляни в кассу.');
     const rigged = this.casino.rig.takeBlackjack();
     if (rigged) this.table.shoe.force(rigged);
     const { shuffled } = this.table.deal(this.bet);
@@ -150,7 +150,7 @@ export class BlackjackPanel extends CasinoPanel {
   double(): void {
     if (this.animating || !this.table.canDouble()) return;
     const hand = this.table.activeHand;
-    if (!this.casino.takeChips(hand.bet)) return this.fail('Not enough chips to double.');
+    if (!this.casino.takeChips(hand.bet)) return this.fail('Мало фишек для удвоения.');
     this.casino.game.audio.play('casino.chip.place');
     const idx = this.table.state.active;
     const card = this.table.double();
@@ -162,7 +162,7 @@ export class BlackjackPanel extends CasinoPanel {
   split(): void {
     if (this.animating || !this.table.canSplit()) return;
     const hand = this.table.activeHand;
-    if (!this.casino.takeChips(hand.bet)) return this.fail('Not enough chips to split.');
+    if (!this.casino.takeChips(hand.bet)) return this.fail('Мало фишек для сплита.');
     this.casino.game.audio.play('casino.chip.place');
     this.table.split();
     this.clearSeats();
@@ -220,7 +220,7 @@ export class BlackjackPanel extends CasinoPanel {
     this.casino.settleRound('blackjack', res.net);
     this.updateCaptions();
     const parts = res.hands.map((h, i) => (res.hands.length > 1 ? `Hand ${i + 1}: ${OUTCOME_TEXT[h.outcome]}` : OUTCOME_TEXT[h.outcome]));
-    const delta = res.net > 0 ? ` (+${res.net.toLocaleString('en-US')})` : res.net < 0 ? ` (${res.net.toLocaleString('en-US')})` : ' (bet returned)';
+    const delta = res.net > 0 ? ` (+${res.net.toLocaleString('ru-RU')})` : res.net < 0 ? ` (${res.net.toLocaleString('ru-RU')})` : ' (ставка возвращена)';
     this.settledMessage = parts.join('  ·  ') + delta;
     this.message(this.settledMessage, res.net > 0 ? 'win' : res.net < 0 ? 'lose' : 'info');
     const best = res.hands.some((h) => h.outcome === 'blackjack')
@@ -243,7 +243,7 @@ export class BlackjackPanel extends CasinoPanel {
     this.dealerHand.replaceChildren();
     this.holeEl = null;
     this.clearSeats();
-    this.dealerCaption.textContent = 'Dealer';
+    this.dealerCaption.textContent = 'Дилер';
   }
 
   private clearSeats(): void {
@@ -317,10 +317,10 @@ export class BlackjackPanel extends CasinoPanel {
   private updateCaptions(): void {
     const s = this.table.state;
     if (s.dealer.length === 0) {
-      this.dealerCaption.textContent = 'Dealer';
+      this.dealerCaption.textContent = 'Дилер';
     } else if (s.holeHidden || this.holeEl) {
       const up = s.dealer[0];
-      this.dealerCaption.textContent = `Dealer shows ${up.rank === 'A' ? 'Ace' : rankValue(up.rank)}`;
+      this.dealerCaption.textContent = `Дилер показывает ${up.rank === 'A' ? 'туза' : rankValue(up.rank)}`;
     } else {
       const v = handValue(s.dealer);
       this.dealerCaption.textContent = v.total > 21 ? `Dealer busts with ${v.total}` : `Dealer has ${v.total}`;
@@ -335,10 +335,10 @@ export class BlackjackPanel extends CasinoPanel {
 
   private handCaption(h: BlackjackHand, index: number): string {
     const v = handValue(h.cards);
-    const name = index ? `Hand ${index}` : 'You';
-    const soft = v.soft && v.total <= 21 ? 'soft ' : '';
-    const flags = `${h.doubled ? ' · doubled' : ''}${h.natural ? ' · blackjack' : ''}`;
-    return `${name}: ${soft}${v.total}${v.total > 21 ? ' (bust)' : ''} · bet ${h.bet.toLocaleString('en-US')}${flags}`;
+    const name = index ? `Рука ${index}` : 'Вы';
+    const soft = v.soft && v.total <= 21 ? 'мягкие ' : '';
+    const flags = `${h.doubled ? ' · удвоено' : ''}${h.natural ? ' · блэкджек' : ''}`;
+    return `${name}: ${soft}${v.total}${v.total > 21 ? ' (перебор)' : ''} · ставка ${h.bet.toLocaleString('ru-RU')}${flags}`;
   }
 
   private refreshButtons(): void {

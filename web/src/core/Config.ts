@@ -7,6 +7,10 @@ export const Config = {
 
   render: {
     maxPixelRatio: 2,
+    /** Phones render below retina resolution: fill rate is what makes them stutter. */
+    touchPixelRatio: 1.25,
+    /** Shadow maps are too expensive on phones; the game ships without them there. */
+    touchShadows: false,
     fov: 60,
     near: 0.3,
     far: 3000,
@@ -64,9 +68,10 @@ export const Config = {
     fogNear: 260,
     fogFar: 1700,
     sunIntensityDay: 3.2,
-    moonIntensity: 0.25,
+    /** Moonlight and ambient at night: dark, but the streets must stay readable. */
+    moonIntensity: 0.55,
     hemiIntensityDay: 1.5,
-    hemiIntensityNight: 0.4,
+    hemiIntensityNight: 0.85,
   },
 
   player: {

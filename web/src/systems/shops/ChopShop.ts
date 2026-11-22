@@ -42,7 +42,7 @@ export class ChopShopSystem implements GameSystem, IChopShopPeer {
     this.unsubs.push(
       this.game.events.on('time:dayChanged', ({ day }) => {
         this.rollWanted(day);
-        this.game.events.emit('notification', { text: `Chop shop wants a ${VEHICLES[this.wanted].name} today (2×).`, kind: 'info' });
+        this.game.events.emit('notification', { text: `Сегодня разборка платит двойную за: ${VEHICLES[this.wanted].name}.`, kind: 'info' });
         this.refreshBlip();
       }),
       this.game.events.on('game:ready', () => this.refreshBlip()),
@@ -89,12 +89,12 @@ export class ChopShopSystem implements GameSystem, IChopShopPeer {
     }
     this.parked = v;
     if (v.isPolice) {
-      this.prompt.set('Chop shop: no police vehicles');
+      this.prompt.set('Разборка: полицейские машины не берём');
       return;
     }
     const value = this.valueOf(v);
     if (value <= 0) {
-      this.prompt.set('Chop shop: too wrecked to sell');
+      this.prompt.set('Разборка: слишком разбита на продажу');
       return;
     }
     this.prompt.set(`Sell for $${value.toLocaleString('en-US')}${v.archetypeId === this.wanted ? ' (wanted 2×)' : ''}`);
@@ -126,7 +126,7 @@ export class ChopShopSystem implements GameSystem, IChopShopPeer {
     else finish();
     this.game.audio.play('chopshop.paid');
     this.game.events.emit('chopshop:sold', { archetypeId, amount: value });
-    this.game.events.emit('notification', { text: `Sold the ${VEHICLES[archetypeId].name} for $${value.toLocaleString('en-US')}.`, kind: 'money' });
+    this.game.events.emit('notification', { text: `Продано: ${VEHICLES[archetypeId].name} за $${value.toLocaleString('ru-RU')}.`, kind: 'money' });
     this.parked = null;
     this.busy = false;
     return value;

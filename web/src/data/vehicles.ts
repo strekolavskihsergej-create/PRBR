@@ -86,7 +86,7 @@ const CIVILIAN_PALETTE = [0xd8d8dc, 0x1f1f24, 0x8c1c2c, 0x243a7a, 0x4a4f57, 0xe8
 export const VEHICLES: Record<VehicleArchetypeId, VehicleArchetype> = {
   sedan: {
     id: 'sedan',
-    name: 'Sedan',
+    name: 'Седан',
     dims: sedanDims,
     mass: 1200,
     engineAccel: 6.5,
@@ -104,7 +104,7 @@ export const VEHICLES: Record<VehicleArchetypeId, VehicleArchetype> = {
   },
   sports: {
     id: 'sports',
-    name: 'Sports Coupe',
+    name: 'Спортивное купе',
     dims: {
       length: 4.4,
       width: 1.95,
@@ -135,7 +135,7 @@ export const VEHICLES: Record<VehicleArchetypeId, VehicleArchetype> = {
   },
   muscle: {
     id: 'muscle',
-    name: 'Muscle Car',
+    name: 'Маслкар',
     dims: {
       length: 4.9,
       width: 1.95,
@@ -166,7 +166,7 @@ export const VEHICLES: Record<VehicleArchetypeId, VehicleArchetype> = {
   },
   suv: {
     id: 'suv',
-    name: 'SUV',
+    name: 'Внедорожник',
     dims: {
       length: 4.8,
       width: 2.0,
@@ -197,7 +197,7 @@ export const VEHICLES: Record<VehicleArchetypeId, VehicleArchetype> = {
   },
   pickup: {
     id: 'pickup',
-    name: 'Pickup',
+    name: 'Пикап',
     dims: {
       length: 5.4,
       width: 2.0,
@@ -228,7 +228,7 @@ export const VEHICLES: Record<VehicleArchetypeId, VehicleArchetype> = {
   },
   van: {
     id: 'van',
-    name: 'Van',
+    name: 'Фургон',
     dims: vanDims,
     mass: 2200,
     engineAccel: 4.8,
@@ -246,7 +246,7 @@ export const VEHICLES: Record<VehicleArchetypeId, VehicleArchetype> = {
   },
   taxi: {
     id: 'taxi',
-    name: 'Taxi',
+    name: 'Такси',
     dims: sedanDims,
     mass: 1250,
     engineAccel: 6.2,
@@ -264,7 +264,7 @@ export const VEHICLES: Record<VehicleArchetypeId, VehicleArchetype> = {
   },
   police: {
     id: 'police',
-    name: 'Police Cruiser',
+    name: 'Полицейский круизер',
     dims: { ...sedanDims, length: 4.7, wheelbase: 2.8 },
     mass: 1300,
     engineAccel: 8,
@@ -282,7 +282,7 @@ export const VEHICLES: Record<VehicleArchetypeId, VehicleArchetype> = {
   },
   swat: {
     id: 'swat',
-    name: 'SWAT Van',
+    name: 'Броневик СОБР',
     dims: { ...vanDims, length: 5.6, height: 2.4, wheelbase: 3.4, clearance: 0.42 },
     mass: 2600,
     engineAccel: 5,

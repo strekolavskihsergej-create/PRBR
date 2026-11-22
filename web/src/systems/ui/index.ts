@@ -123,10 +123,10 @@ export class UiSystem implements GameSystem, IUiPeer {
         // `Arrest.bust()` emits player:busted synchronously after `kill('busted')` → player:died;
         // defer so the Busted card (and its sting) claims the slot and Wasted never flashes.
         queueMicrotask(() => {
-          if (this.cards.activeKind !== 'busted') void this.card('wasted', 'Wasted');
+          if (this.cards.activeKind !== 'busted') void this.card('wasted', 'ВЫ ПОГИБЛИ');
         });
       }),
-      game.events.on('player:busted', () => void this.card('busted', 'Busted')),
+      game.events.on('player:busted', () => void this.card('busted', 'ВАС АРЕСТОВАЛИ')),
       // Pausing releases the pointer, which releases Tab and closes the wheel while scale is 0;
       // the wheel cannot undo its slow-mo then, so drop it from the scale we restore on resume.
       game.events.on('weapon:wheelToggled', ({ open }) => {
@@ -352,15 +352,15 @@ export class UiSystem implements GameSystem, IUiPeer {
       this.card(asCardKind(kind), String(text ?? ''), seconds === undefined ? undefined : Number(seconds)),
     dialogue: (): Promise<void> =>
       this.dialogue.show([
-        { speaker: 'Lucia', text: 'You sure about this, Jason?' },
-        { speaker: 'Jason', text: "We're broke. Of course I'm sure." },
-        { speaker: 'Lucia', text: 'Fine. But we do it my way.' },
+        { speaker: 'Лусия', text: 'Ты уверен, Джейсон?' },
+        { speaker: 'Джейсон', text: 'Мы на мели. Конечно уверен.' },
+        { speaker: 'Лусия', text: 'Ладно. Но делаем по-моему.' },
       ]),
     objective: (text: unknown): void => this.setObjective(text === undefined || text === null || text === '' ? null : String(text)),
     progress: (fraction: unknown): void => {
       const f = Number(fraction);
       if (!Number.isFinite(f) || f < 0) this.progressBar.hide();
-      else this.progressBar.show('Filling bag', f);
+      else this.progressBar.show('Набиваем сумку', f);
     },
     title: (): void => this.showTitle(),
     pause: (): void => this.pause(),

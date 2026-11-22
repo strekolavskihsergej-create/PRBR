@@ -51,11 +51,11 @@ export class FullMap implements UiComponent {
     this.el.hidden = true;
     this.canvas = el('canvas');
     const side = el('div', 'fullmap-side');
-    side.append(el('div', 'fullmap-title', 'Vice City'), el('div', 'fullmap-sub', 'Leonida'));
+    side.append(el('div', 'fullmap-title', 'Вайс-Сити'), el('div', 'fullmap-sub', 'Леонида'));
     this.legend = el('div', 'fullmap-legend');
     side.appendChild(this.legend);
     const hints = el('div', 'fullmap-hints');
-    hints.innerHTML = '<b>LMB</b> Set / clear waypoint<br><b>Drag</b> Pan<br><b>Wheel</b> Zoom<br><b>M</b> / <b>Esc</b> Close';
+    hints.innerHTML = '<b>Клик</b> поставить / снять метку<br><b>Перетаскивание</b> сдвиг карты<br><b>Колесо</b> масштаб<br><b>M</b> / <b>Esc</b> закрыть';
     side.appendChild(hints);
     this.coords = el('div', 'fullmap-coords');
     this.el.append(this.canvas, side, this.coords);

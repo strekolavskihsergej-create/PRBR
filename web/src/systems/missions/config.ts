@@ -25,7 +25,7 @@ export const MissionsConfig = {
   casino: {
     /** Cash below this with zero chips counts as broke. */
     brokeCash: 100,
-    brokeTaunt: 'Dominic: "A tourist after all. Get out of my casino."',
+    brokeTaunt: 'Доминик: «Всё-таки турист. Вон из моего казино».',
   },
   /** Autostart the first mission this long after New Game (seconds). */
   newGameStartDelay: 1.5,

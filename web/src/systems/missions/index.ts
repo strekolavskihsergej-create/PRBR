@@ -85,7 +85,7 @@ export class MissionSystem implements GameSystem, IMissionsPeer {
       return false;
     }
     if (this.run && this.run.status === 'running') {
-      this.game.ui?.notify('Finish the current mission first', 'warning');
+      this.game.ui?.notify('Сначала закончи текущее задание', 'warning');
       return false;
     }
     if (!this.isAvailable(def) && !this.unlockAllFlag) {
@@ -162,7 +162,7 @@ export class MissionSystem implements GameSystem, IMissionsPeer {
     game.state.stats.missionsPassed = (game.state.stats.missionsPassed ?? 0) + 1;
     game.events.emit('mission:passed', { id: run.def.id, reward });
     game.save.save();
-    await game.ui?.card('missionPassed', reward > 0 ? `+$${reward.toLocaleString()}` : 'Mission Passed', this.cardSeconds);
+    await game.ui?.card('missionPassed', reward > 0 ? `+$${reward.toLocaleString('ru-RU')}` : 'ЗАДАНИЕ ВЫПОЛНЕНО', this.cardSeconds);
     this.refreshMarkers();
   }
 

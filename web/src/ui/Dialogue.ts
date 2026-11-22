@@ -29,7 +29,7 @@ export class Dialogue implements UiComponent {
     this.el.hidden = true;
     this.speaker = el('span', 'dialogue-speaker');
     this.text = el('span', 'dialogue-text');
-    this.el.append(this.speaker, this.text, el('span', 'dialogue-hint', 'Space'));
+    this.el.append(this.speaker, this.text, el('span', 'dialogue-hint', 'ПРОБЕЛ'));
   }
 
   get active(): boolean {

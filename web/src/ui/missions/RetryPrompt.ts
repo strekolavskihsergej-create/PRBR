@@ -25,15 +25,15 @@ export class RetryPrompt {
     this.el = el('div', 'mission-retry');
     this.el.hidden = true;
     const panel = el('div', 'mission-retry-panel');
-    this.title = el('div', 'mission-retry-title', 'Mission Failed');
+    this.title = el('div', 'mission-retry-title', 'ЗАДАНИЕ ПРОВАЛЕНО');
     this.reason = el('div', 'mission-retry-reason');
-    const retry = el('button', 'menu-button', 'Retry');
-    const quit = el('button', 'menu-button', 'Quit');
+    const retry = el('button', 'menu-button', 'Ещё раз');
+    const quit = el('button', 'menu-button', 'Выйти');
     retry.addEventListener('click', () => this.choose('retry'));
     quit.addEventListener('click', () => this.choose('quit'));
     const buttons = el('div', 'mission-retry-buttons');
     buttons.append(retry, quit);
-    panel.append(this.title, this.reason, buttons, el('div', 'mission-retry-hint', 'Enter · R retry · Q quit'));
+    panel.append(this.title, this.reason, buttons, el('div', 'mission-retry-hint', 'Enter · R — ещё раз · Q — выйти'));
     this.el.append(panel);
     parent.append(this.el);
     this.nav.setItems([retry, quit]);
@@ -46,7 +46,7 @@ export class RetryPrompt {
 
   show(missionName: string, reason: string): Promise<'retry' | 'quit'> {
     if (this.resolve) this.choose('quit');
-    setText(this.title, `${missionName} — Failed`);
+    setText(this.title, `${missionName} — провал`);
     setText(this.reason, reason);
     this.el.hidden = false;
     this.nav.select(0, false);

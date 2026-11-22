@@ -17,10 +17,10 @@ interface AppDef {
 }
 
 const APPS: readonly AppDef[] = [
-  { id: 'contacts', label: 'Contacts', glyph: '☎', color: '#4ee06a' },
-  { id: 'map', label: 'Map', glyph: '◎', color: '#35e6ff' },
-  { id: 'snap', label: 'Snapmatic', glyph: '◉', color: '#ffd23f' },
-  { id: 'feed', label: 'Feed', glyph: '#', color: '#ff4fa3' },
+  { id: 'contacts', label: 'Контакты', glyph: '☎', color: '#4ee06a' },
+  { id: 'map', label: 'Карта', glyph: '◎', color: '#35e6ff' },
+  { id: 'snap', label: 'Снимки', glyph: '◉', color: '#ffd23f' },
+  { id: 'feed', label: 'Лента', glyph: '#', color: '#ff4fa3' },
 ];
 
 /**
@@ -55,10 +55,10 @@ export class Phone {
     const home = el('div', 'phone-home');
     const homeBtn = el('button', 'phone-home-btn');
     homeBtn.type = 'button';
-    homeBtn.title = 'Home / close';
+    homeBtn.title = 'Домой / закрыть';
     homeBtn.addEventListener('click', () => (this.app === 'home' ? this.close() : this.openApp('home')));
     home.appendChild(homeBtn);
-    shell.append(screen, home, el('div', 'phone-hint', '↑↓ navigate · Enter open · Backspace back · Esc close'));
+    shell.append(screen, home, el('div', 'phone-hint', '↑↓ выбор · Enter открыть · Backspace назад · Esc закрыть'));
     this.el.appendChild(shell);
     this.el.addEventListener('click', (e) => {
       if (e.target === this.el) this.close();
@@ -148,7 +148,7 @@ export class Phone {
     const t = this.game.time;
     const h = Math.floor(t.hour);
     const m = Math.floor((t.hour - h) * 60);
-    setText(this.clock, `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}  ·  day ${t.day}`);
+    setText(this.clock, `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}  ·  день ${t.day}`);
     setText(this.cash, formatCash(this.game.state.cash));
   }
 
@@ -191,13 +191,13 @@ export class Phone {
   }
 
   private renderContacts(): void {
-    setText(this.screenTitle, 'Contacts');
+    setText(this.screenTitle, 'Контакты');
     const missions = this.game.missions;
     const list = missions ? missions.available() : [];
     if (this.selectedContact) {
       const c = this.selectedContact;
-      this.body.append(el('div', 'phone-post', `${c.contact}: "${c.name}". You in?`));
-      const call = this.row('Call', c.contact, () => {
+      this.body.append(el('div', 'phone-post', `${c.contact}: «${c.name}». Ты в деле?`));
+      const call = this.row('Позвонить', c.contact, () => {
         const ok = missions?.start(c.id) ?? false;
         this.game.audio.play(ok ? 'ui.phone.hangup' : 'ui.error');
         if (ok) this.close();
@@ -207,7 +207,7 @@ export class Phone {
       return;
     }
     if (list.length === 0) {
-      this.body.appendChild(el('div', 'phone-empty', missions ? 'No contacts yet. Meet some people.' : 'No contacts yet.'));
+      this.body.appendChild(el('div', 'phone-empty', missions ? 'Контактов пока нет. Заведи знакомства.' : 'Контактов пока нет.'));
       this.nav.setItems([]);
       return;
     }
@@ -222,13 +222,13 @@ export class Phone {
   }
 
   private renderMap(): void {
-    setText(this.screenTitle, 'Map');
-    const open = this.row('Open full map', 'M also works in-game', () => {
+    setText(this.screenTitle, 'Карта');
+    const open = this.row('Открыть карту', 'Можно и кнопкой КАРТА', () => {
       this.close();
       try {
         this.game.debug.run('ui.map');
       } catch {
-        this.game.events.emit('notification', { text: 'Map is not available.', kind: 'info' });
+        this.game.events.emit('notification', { text: 'Карта недоступна.', kind: 'info' });
       }
     });
     this.body.appendChild(open);
@@ -236,18 +236,18 @@ export class Phone {
   }
 
   private renderSnap(): void {
-    setText(this.screenTitle, 'Snapmatic');
+    setText(this.screenTitle, 'Снимки');
     const last = this.snapmatic.lastDataUrl;
     if (last) {
       const img = el('img', 'phone-snap');
       img.src = last;
-      img.alt = 'Last snapshot';
+      img.alt = 'Последний снимок';
       this.body.appendChild(img);
     } else {
-      this.body.appendChild(el('div', 'phone-empty', 'No snaps yet.'));
+      this.body.appendChild(el('div', 'phone-empty', 'Снимков пока нет.'));
     }
-    const take = this.row('Take photo', `${this.snapmatic.count} taken`, () => void this.snap());
-    const save = this.row('Save last photo', 'downloads a PNG', () => {
+    const take = this.row('Сделать снимок', `сделано: ${this.snapmatic.count}`, () => void this.snap());
+    const save = this.row('Сохранить снимок', 'скачать PNG', () => {
       this.snapmatic.download();
       this.render();
     });
@@ -257,9 +257,9 @@ export class Phone {
   }
 
   private renderFeed(): void {
-    setText(this.screenTitle, 'Feed');
+    setText(this.screenTitle, 'Лента');
     if (this.feed.posts.length === 0) {
-      this.body.appendChild(el('div', 'phone-empty', 'Nothing happening. Suspicious.'));
+      this.body.appendChild(el('div', 'phone-empty', 'Ничего не происходит. Подозрительно.'));
     }
     for (const p of this.feed.posts) {
       const post = el('div', 'phone-post');

@@ -47,7 +47,7 @@ export class WeaponWheel {
     });
     const center = document.createElement('div');
     center.className = 'weapon-wheel-center';
-    center.innerHTML = '<span class="ww-current"></span><span class="ww-hint">move to select · release to equip</span>';
+    center.innerHTML = '<span class="ww-current"></span><span class="ww-hint">двигай, чтобы выбрать · отпусти, чтобы взять</span>';
     this.currentEl = center.querySelector('.ww-current') as HTMLSpanElement;
     ring.append(center);
     this.root.append(ring);
@@ -131,7 +131,7 @@ export class WeaponWheel {
       slot.classList.toggle('selected', id === this.selected);
       slot.classList.toggle('current', id === this.inventory.current);
       const ammo = this.inventory.slot(id);
-      const text = !owned ? 'not owned' : id === 'fists' ? '—' : `${ammo?.mag ?? 0} / ${ammo?.reserve ?? 0}`;
+      const text = !owned ? 'нет' : id === 'fists' ? '—' : `${ammo?.mag ?? 0} / ${ammo?.reserve ?? 0}`;
       if (this.ammoEls[i].textContent !== text) this.ammoEls[i].textContent = text;
     }
     const name = WEAPONS[this.selected].name;

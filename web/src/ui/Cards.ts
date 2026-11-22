@@ -7,10 +7,10 @@ import { el, setText, toggleClass, type UiComponent } from './dom';
 
 const C = UiConfig.cards;
 const LABELS: Record<CardKind, string> = {
-  wasted: 'Wasted',
-  busted: 'Busted',
-  missionPassed: 'Mission Passed',
-  missionFailed: 'Mission Failed',
+  wasted: 'ВЫ ПОГИБЛИ',
+  busted: 'ВАС АРЕСТОВАЛИ',
+  missionPassed: 'ЗАДАНИЕ ВЫПОЛНЕНО',
+  missionFailed: 'ЗАДАНИЕ ПРОВАЛЕНО',
   custom: '',
 };
 const SOUNDS: Record<CardKind, SoundId | null> = {

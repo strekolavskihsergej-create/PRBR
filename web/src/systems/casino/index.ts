@@ -207,22 +207,22 @@ export class CasinoSystem implements GameSystem, ICasinoPeer {
         const weapons = g.weapons;
         if (m.kind === 'weapon' && weapons) {
           weapons.give(m.weaponId, m.ammo);
-          return `Mystery prize: an SMG with ${m.ammo} rounds.`;
+          return `Сюрприз: пистолет-пулемёт с патронами (${m.ammo} шт.).`;
         }
         if (m.kind === 'ammo' && weapons) {
           weapons.addAmmo(m.weaponId, m.ammo);
-          return `Mystery prize: ${m.ammo} pistol rounds.`;
+          return `Сюрприз: патроны для пистолета (${m.ammo} шт.).`;
         }
         if (g.systems.has('player')) g.player.addArmor(100);
-        return 'Mystery prize: full body armor.';
+        return 'Сюрприз: полный бронежилет.';
       }
       case 'vehicle': {
         const vehicles = g.vehicles;
         const spot = this.doorPosition(CasinoConfig.wheel.vehicleOffset);
         if (vehicles && spot) {
           vehicles.spawn('sports', spot, this.doorHeading(), { parked: true });
-          this.notify('A sports car is waiting outside.', 'info');
-          return 'You won a sports car! It is parked outside.';
+          this.notify('Спорткар ждёт тебя у входа.', 'info');
+          return 'Ты выиграл спорткар! Он стоит у входа.';
         }
         g.economy?.add(CasinoConfig.wheel.vehicleFallbackCash, 'lucky wheel');
         this.settleRound('wheel', CasinoConfig.wheel.vehicleFallbackCash);

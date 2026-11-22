@@ -43,7 +43,7 @@ export abstract class CasinoPanel {
     this.cashEl.className = 'casino-cash';
     this.chipsEl = document.createElement('div');
     this.chipsEl.className = 'casino-chips';
-    const closeBtn = this.button('Close', () => this.close(), 'secondary small');
+    const closeBtn = this.button('Закрыть', () => this.close(), 'secondary small');
     closeBtn.dataset.action = 'close';
     right.append(this.cashEl, this.chipsEl, closeBtn);
     header.append(titleEl, right);

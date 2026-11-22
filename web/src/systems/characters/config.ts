@@ -36,8 +36,8 @@ export const CharactersConfig = {
     lucia: { sprintMultiplier: 1.08, recoilMultiplier: 1, damageMultiplier: 1 },
     jason: { sprintMultiplier: 1, recoilMultiplier: 0.8, damageMultiplier: 1 },
   } satisfies Record<CharacterId, { sprintMultiplier: number; recoilMultiplier: number; damageMultiplier: number }>,
-  names: { lucia: 'Lucia', jason: 'Jason' } satisfies Record<CharacterId, string>,
-  traits: { lucia: 'Faster · Focus: 2x damage', jason: 'Steadier aim · Focus: marks heads' } satisfies Record<CharacterId, string>,
+  names: { lucia: 'Лусия', jason: 'Джейсон' } satisfies Record<CharacterId, string>,
+  traits: { lucia: 'Быстрее · Фокус: урон x2', jason: 'Точнее · Фокус: метит в голову' } satisfies Record<CharacterId, string>,
 } as const;
 
 export const CHARACTER_IDS: readonly CharacterId[] = ['lucia', 'jason'];
