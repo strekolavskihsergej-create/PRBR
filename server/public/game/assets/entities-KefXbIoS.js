@@ -1,0 +1,1 @@
+function e(e){return!!e&&typeof e.applyDamage==`function`}var t=1;function n(){return t++}export{e as n,n as t};

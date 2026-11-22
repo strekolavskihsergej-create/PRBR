@@ -1,0 +1,1 @@
+function e(e){return e}function t(e){return e}function n(t){return e({type:`damaged`,info:t,damageType:t.type,amount:t.amount,point:t.point,direction:t.direction,part:t.part,source:t.source})}export{n,e as r,t};

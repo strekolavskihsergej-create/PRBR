@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { GameView } from '@/components/game-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { WorldMap } from '@/components/world-map';
@@ -31,6 +32,7 @@ export default function GameScreen() {
 
   const [username, setUsername] = useState('');
   const [url, setUrl] = useState(DEFAULT_SERVER_URL);
+  const [playing, setPlaying] = useState(false);
 
   if (!me) {
     const connecting = status === 'connecting';
@@ -138,6 +140,17 @@ export default function GameScreen() {
           </View>
         </View>
 
+        <Pressable onPress={() => setPlaying(true)} style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}>
+          <View style={styles.playButton}>
+            <ThemedText type="smallBold" style={styles.primaryButtonText}>
+              Открыть 3D мир
+            </ThemedText>
+            <ThemedText type="small" style={styles.playButtonHint}>
+              Город, машины, оружие — управление джойстиком на экране
+            </ThemedText>
+          </View>
+        </Pressable>
+
         <WorldMap me={me} players={players} />
 
         <View style={styles.controlsRow}>
@@ -174,6 +187,7 @@ export default function GameScreen() {
           </Pressable>
         ) : null}
       </View>
+      <GameView visible={playing} onClose={() => setPlaying(false)} />
     </View>
   );
 }
@@ -225,6 +239,17 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: {
     color: '#ffffff',
+  },
+  playButton: {
+    backgroundColor: '#111318',
+    borderRadius: Spacing.three,
+    paddingVertical: Spacing.three,
+    paddingHorizontal: Spacing.three,
+    alignItems: 'center',
+    gap: Spacing.one,
+  },
+  playButtonHint: {
+    color: '#a6a6b0',
   },
   gameContent: {
     width: '100%',

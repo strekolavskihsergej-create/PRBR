@@ -1,9 +1,10 @@
 const express = require('express');
 const http = require('http');
+const path = require('path');
 const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 const Player = require('./models/Player');
-require('dotenv').config({ path: require('path').join(__dirname, '.env') });
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const PORT = Number(process.env.PORT) || 3000;
 const WORLD_ROOM = 'world';
@@ -16,12 +17,18 @@ const online = new Map(); // socket.id -> { id, username, position }
 const app = express();
 app.use(express.json());
 
+// The 3D client (web/ build, copied to public/game). Served from this origin so the
+// Android WebView loads it over https and can talk to the same host later.
+const GAME_DIR = path.join(__dirname, 'public', 'game');
+app.use('/assets', express.static(path.join(GAME_DIR, 'assets'), { maxAge: '1y', immutable: true }));
+app.use(express.static(GAME_DIR, { index: 'index.html', maxAge: 0 }));
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { origin: "*", methods: ["GET", "POST"] }
 });
 
-app.get('/', (req, res) => {
+app.get('/api/status', (req, res) => {
   res.json({ name: 'Black Russia Server', status: 'ok', online: online.size });
 });
 

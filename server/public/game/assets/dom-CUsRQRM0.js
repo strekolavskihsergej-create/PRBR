@@ -1,0 +1,1 @@
+function e(e,t,n){let r=document.createElement(e);return t&&(r.className=t),n!==void 0&&(r.textContent=n),r}function t(e,t){return e.textContent!==t&&(e.textContent=t,!0)}function n(e,t){e.hidden!==!t&&(e.hidden=!t)}function r(e,t,n){e.classList.contains(t)!==n&&e.classList.toggle(t,n)}function i(e){return e<0?0:e>1?1:e}export{r as a,n as i,e as n,t as r,i as t};
