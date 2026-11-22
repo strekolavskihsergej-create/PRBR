@@ -128,6 +128,11 @@
 
 /* --- Adrenaline ------------------------------------------------------------ */
 
+/* `#ui > *` re-enables pointer events; this full-screen effect must never swallow clicks. */
+#ui .ability-fx {
+  pointer-events: none;
+}
+
 .ability-fx {
   position: absolute;
   inset: 0;

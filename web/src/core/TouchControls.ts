@@ -176,7 +176,11 @@ export class TouchControls {
     if (this.stickPointer !== null) return;
     e.preventDefault();
     this.stickPointer = e.pointerId;
-    this.stick.setPointerCapture(e.pointerId);
+    try {
+      this.stick.setPointerCapture(e.pointerId);
+    } catch {
+      /* older WebViews */
+    }
     const rect = this.stick.getBoundingClientRect();
     this.stickCenterX = rect.left + rect.width / 2;
     this.stickCenterY = rect.top + rect.height / 2;
