@@ -1,0 +1,10 @@
+Wall substrates: ambientCG (https://ambientcg.com) — CC0 1.0 Universal (public domain).
+Commercial use allowed, attribution not required (given here as a courtesy).
+
+plaster_color.jpg  / plaster_normal.jpg   <- PaintedPlaster017
+brick_color.jpg    / brick_normal.jpg     <- Bricks113A
+siding_color.jpg   / siding_normal.jpg    <- WoodSiding008
+concrete_color.jpg / concrete_normal.jpg  <- Concrete034
+
+Source files were 1K JPG sets (Color + NormalGL), downscaled to 512x512 and
+re-encoded for the mobile web build.

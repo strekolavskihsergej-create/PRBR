@@ -215,7 +215,7 @@ function mixedUse(ctx: BuildContext, lot: Lot, rng: Random): BuildingRecord {
   const floors = rng.int(lot.district.floors[0], lot.district.floors[1]);
   const h = floors * FLOOR;
   const color = rng.pick(lot.district.palette);
-  solidBox(ctx, 'walls', cx, LOT_Y, cz, w, h, d, color, rng);
+  solidBox(ctx, 'brick', cx, LOT_Y, cz, w, h, d, color, rng);
   solidBox(ctx, 'flat', cx, LOT_Y + h, cz, w + 0.2, 0.6, d + 0.2, shade(color, 0.8), rng, { collide: false, topColor: shade(color, 0.8), sidesOnly: true });
   const faceLen = lot.facing === 'N' || lot.facing === 'S' ? w : d;
   const awning = rng.pick([0xd94a4a, 0x3a7a3a, 0xf0c050, 0xffffff, 0x3a5fa0]);
@@ -255,7 +255,7 @@ function suburban(ctx: BuildContext, lot: Lot, rng: Random): BuildingRecord {
   const floors = rng.chance(0.4) ? 2 : 1;
   const h = floors * FLOOR;
   const color = rng.pick(lot.district.palette);
-  solidBox(ctx, 'walls', cx, LOT_Y, cz, w, h, d, color, rng, { uvScale: 9.6 });
+  solidBox(ctx, 'siding', cx, LOT_Y, cz, w, h, d, color, rng, { uvScale: 9.6 });
   const roofColor = rng.pick([0x7a3b2e, 0x4a4a4a, 0x6b5a4a, 0x8a3a3a, 0x3f4f5f]);
   const alongZ = lot.facing === 'E' || lot.facing === 'W';
   ctx.batches.layer(cx, cz, 'flat').addGableRoof(cx, LOT_Y + h, cz, w + 0.8, d + 0.8, 2.2, roofColor, alongZ);

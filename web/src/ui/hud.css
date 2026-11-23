@@ -198,3 +198,16 @@
 .ui-root .notifications {
   transition: opacity 0.25s linear;
 }
+
+/* Performance readout: tiny, dim, and it turns amber when the frame rate drops. */
+.hud-fps {
+  margin-top: 6px;
+  font: 11px/1 var(--font-mono);
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.55);
+  text-shadow: var(--shadow-text);
+}
+
+.hud-fps.low {
+  color: #ff9c6b;
+}

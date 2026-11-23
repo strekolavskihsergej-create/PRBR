@@ -1,4 +1,12 @@
-import { Color, DoubleSide, FrontSide, MeshBasicMaterial, MeshStandardMaterial, type Texture } from 'three';
+import {
+  Color,
+  DoubleSide,
+  FrontSide,
+  MeshBasicMaterial,
+  MeshStandardMaterial,
+  Vector2,
+  type Texture,
+} from 'three';
 import {
   concreteTexture,
   grassTexture,
@@ -17,10 +25,14 @@ import {
 export class CityMaterials {
   readonly concreteWindows: WindowTextures;
   readonly decoWindows: WindowTextures;
+  readonly brickWindows: WindowTextures;
+  readonly sidingWindows: WindowTextures;
   readonly glassWindows: WindowTextures;
 
   readonly walls: MeshStandardMaterial;
   readonly deco: MeshStandardMaterial;
+  readonly brick: MeshStandardMaterial;
+  readonly siding: MeshStandardMaterial;
   readonly glass: MeshStandardMaterial;
   readonly flat: MeshStandardMaterial;
   readonly concrete: MeshStandardMaterial;
@@ -36,8 +48,11 @@ export class CityMaterials {
   private readonly neonColor = new Color(1, 1, 1);
 
   constructor(seed: string, signAtlasTexture: SignAtlas['texture']) {
-    this.concreteWindows = windowTextures(seed, 'concrete');
-    this.decoWindows = windowTextures(seed, 'deco');
+    // Each district style gets its own CC0 substrate (plaster / brick / siding / concrete).
+    this.concreteWindows = windowTextures(seed, 'concrete', 'concrete');
+    this.decoWindows = windowTextures(seed, 'deco', 'plaster');
+    this.brickWindows = windowTextures(seed, 'concrete', 'brick');
+    this.sidingWindows = windowTextures(seed, 'deco', 'siding');
     this.glassWindows = windowTextures(seed, 'glass');
 
     const windowMat = (t: WindowTextures, roughness: number, metalness: number): MeshStandardMaterial =>
@@ -47,12 +62,16 @@ export class CityMaterials {
         emissive: new Color(1, 1, 1),
         emissiveIntensity: 0,
         vertexColors: true,
+        normalMap: t.normalMap,
+        normalScale: new Vector2(0.85, 0.85),
         roughness,
         metalness,
         side: FrontSide,
       });
     this.walls = windowMat(this.concreteWindows, 0.9, 0.0);
     this.deco = windowMat(this.decoWindows, 0.85, 0.0);
+    this.brick = windowMat(this.brickWindows, 0.92, 0.0);
+    this.siding = windowMat(this.sidingWindows, 0.88, 0.0);
     this.glass = windowMat(this.glassWindows, 0.35, 0.6);
 
     this.flat = new MeshStandardMaterial({ vertexColors: true, roughness: 0.92, metalness: 0.0 });
@@ -94,6 +113,8 @@ export class CityMaterials {
     const n = Math.max(0, Math.min(1, night01));
     this.walls.emissiveIntensity = n * 1.4;
     this.deco.emissiveIntensity = n * 1.6;
+    this.brick.emissiveIntensity = n * 1.4;
+    this.siding.emissiveIntensity = n * 1.5;
     this.glass.emissiveIntensity = n * 1.1;
     // Neon reads as "off" plastic tubes by day and bright saturated light at night.
     const k = 0.18 + 0.82 * n;
@@ -103,11 +124,27 @@ export class CityMaterials {
   }
 
   dispose(): void {
-    for (const t of [this.concreteWindows, this.decoWindows, this.glassWindows]) {
+    for (const t of [this.concreteWindows, this.decoWindows, this.brickWindows, this.sidingWindows, this.glassWindows]) {
       t.map.dispose();
       t.emissiveMap.dispose();
+      t.normalMap?.dispose();
     }
-    for (const m of [this.walls, this.deco, this.glass, this.flat, this.concrete, this.grass, this.sand, this.planks, this.neon, this.lampGlow, this.signal, this.signs]) {
+    for (const m of [
+      this.walls,
+      this.deco,
+      this.brick,
+      this.siding,
+      this.glass,
+      this.flat,
+      this.concrete,
+      this.grass,
+      this.sand,
+      this.planks,
+      this.neon,
+      this.lampGlow,
+      this.signal,
+      this.signs,
+    ]) {
       m.dispose();
     }
     for (const m of Object.values(this.roads)) {

@@ -24,6 +24,10 @@ export class HUD implements UiComponent {
   private readonly ammoMag: HTMLElement;
   private readonly ammoReserve: HTMLElement;
   private readonly clockEl: HTMLElement;
+  /** Always-on FPS readout: real-device numbers are otherwise invisible on a phone. */
+  private readonly fpsEl: HTMLElement;
+  private fpsTimer = 0;
+  private lastFpsText = '';
   private readonly abilityRow: HTMLElement | null;
   private readonly abilityFill: HTMLElement | null;
 
@@ -78,6 +82,8 @@ export class HUD implements UiComponent {
       this.abilityRow = null;
       this.abilityFill = null;
     }
+    this.fpsEl = el('div', 'hud-fps', '— FPS');
+    this.el.appendChild(this.fpsEl);
 
     this.offs.push(
       game.events.on('economy:cashChanged', (e) => this.onCashChanged(e.delta)),
@@ -115,6 +121,20 @@ export class HUD implements UiComponent {
       this.lastClock = clock;
       setText(this.clockEl, clock);
     }
+    this.updateFps(realDt);
+  }
+
+  private updateFps(dt: number): void {
+    this.fpsTimer += dt;
+    if (this.fpsTimer < 0.5) return;
+    this.fpsTimer = 0;
+    const perf = this.game.perf;
+    const text = `${perf.fps.toFixed(0)} FPS · ${perf.frameMs.toFixed(1)} мс`;
+    if (text !== this.lastFpsText) {
+      this.lastFpsText = text;
+      setText(this.fpsEl, text);
+    }
+    toggleClass(this.fpsEl, 'low', perf.fps < 30);
   }
 
   private updateCash(state: GameState, dt: number): void {

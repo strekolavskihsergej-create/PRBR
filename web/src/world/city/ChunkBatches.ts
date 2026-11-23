@@ -3,7 +3,7 @@ import { Config } from '../../core/Config';
 import { GeometryBatch } from '../../gfx/GeometryBatch';
 import type { CityMaterials } from '../../gfx/Materials';
 
-export type BatchLayer = 'walls' | 'deco' | 'glass' | 'flat' | 'concrete' | 'neon' | 'planks';
+export type BatchLayer = 'walls' | 'deco' | 'brick' | 'siding' | 'glass' | 'flat' | 'concrete' | 'neon' | 'planks';
 
 export interface ChunkBatch {
   cx: number;
@@ -11,7 +11,7 @@ export interface ChunkBatch {
   layers: Record<BatchLayer, GeometryBatch>;
 }
 
-const LAYERS: BatchLayer[] = ['walls', 'deco', 'glass', 'flat', 'concrete', 'neon', 'planks'];
+const LAYERS: BatchLayer[] = ['walls', 'deco', 'brick', 'siding', 'glass', 'flat', 'concrete', 'neon', 'planks'];
 
 /**
  * Routes static geometry into per-200 m chunk batches keyed by material layer, then
@@ -52,6 +52,8 @@ export class ChunkBatches {
     const materialFor: Record<BatchLayer, Material> = {
       walls: materials.walls,
       deco: materials.deco,
+      brick: materials.brick,
+      siding: materials.siding,
       glass: materials.glass,
       flat: materials.flat,
       concrete: materials.concrete,

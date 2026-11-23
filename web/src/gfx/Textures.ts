@@ -6,10 +6,11 @@ import {
   NearestFilter,
   RepeatWrapping,
   SRGBColorSpace,
-  type Texture,
+  Texture,
 } from 'three';
 import { Random } from '../core/Random';
 import type { RoadKind } from '../world/roadNetwork';
+import { FACADE_REPEAT, facadeImage, facadeNormalImage, type FacadeStyle } from './facades';
 
 /** All textures are generated from <canvas>; nothing is downloaded. */
 
@@ -43,29 +44,47 @@ function noise(ctx: CanvasRenderingContext2D, w: number, h: number, rng: Random,
   }
 }
 
+export type WallStyle = 'concrete' | 'glass' | 'deco';
+
 export interface WindowTextures {
   map: Texture;
   emissiveMap: Texture;
+  /** Photo facade relief; null when the CC0 substrate is unavailable. */
+  normalMap: Texture | null;
   /** Meters covered by one UV unit (4 floors × 4 window columns). */
   uvScale: number;
 }
 
 /**
- * 4×4 window grid per texture repeat. Walls are white so vertex colors tint them;
- * windows are dark. The emissive map lights a random subset for the night look.
+ * 4×4 window grid per texture repeat, painted over an optional photo substrate.
+ * Window areas stay dark so vertex colours tint the walls; the emissive map lights
+ * a random subset for the night look. The map renders at 1024 px so close-up walls
+ * stay sharp, while the emissive map stays at 512 px (it is only glow blobs).
  */
-export function windowTextures(seed: string, style: 'concrete' | 'glass' | 'deco'): WindowTextures {
+export function windowTextures(seed: string, style: WallStyle, facadeStyle?: FacadeStyle): WindowTextures {
+  /** Canvas pixels of the colour map (2× the 512-unit design grid). */
+  const RES = 1024;
+  /** Logical design units; every measurement below is in these. */
   const size = 512;
   const rng = Random.fromString(`windows:${seed}:${style}`);
-  const { canvas, ctx } = makeCanvas(size, size);
+  const { canvas, ctx } = makeCanvas(RES, RES);
   const { canvas: eCanvas, ctx: ectx } = makeCanvas(size, size);
   const cell = size / 4;
+  const facade = facadeStyle ? facadeImage(facadeStyle) : null;
 
-  ctx.fillStyle = style === 'glass' ? '#c8d2e0' : '#ffffff';
-  ctx.fillRect(0, 0, size, size);
-  if (style !== 'glass') noise(ctx, size, size, rng, 0.06, 8);
+  if (facade) {
+    paintFacade(ctx, facade, RES, facadeStyle as FacadeStyle);
+  } else {
+    ctx.fillStyle = style === 'glass' ? '#c8d2e0' : '#ffffff';
+    ctx.fillRect(0, 0, RES, RES);
+    if (style !== 'glass') noise(ctx, RES, RES, rng, 0.06, 8);
+  }
   ectx.fillStyle = '#000000';
   ectx.fillRect(0, 0, size, size);
+
+  // Everything below draws in 512-unit space: scale the colour map up, keep emissive 1:1.
+  ctx.save();
+  ctx.scale(RES / size, RES / size);
 
   const litChance = style === 'glass' ? 0.35 : style === 'deco' ? 0.5 : 0.45;
   for (let r = 0; r < 4; r++) {
@@ -113,7 +132,59 @@ export function windowTextures(seed: string, style: 'concrete' | 'glass' | 'deco
       }
     }
   }
-  return { map: toTexture(canvas), emissiveMap: toTexture(eCanvas), uvScale: 12.8 };
+  ctx.restore();
+  return {
+    map: toTexture(canvas),
+    emissiveMap: toTexture(eCanvas),
+    normalMap: facadeStyle ? facadeNormalTexture(facadeStyle) : null,
+    uvScale: 12.8,
+  };
+}
+
+/** Desaturated, lightened copy of the photo so vertex colours stay in charge of hue. */
+const tinted = new Map<FacadeStyle, HTMLCanvasElement>();
+
+function tintedFacade(img: HTMLImageElement, style: FacadeStyle): HTMLCanvasElement {
+  const cached = tinted.get(style);
+  if (cached) return cached;
+  const { canvas, ctx } = makeCanvas(512, 512);
+  ctx.drawImage(img, 0, 0, 512, 512);
+  const data = ctx.getImageData(0, 0, 512, 512);
+  const d = data.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+    const v = 148 + lum * 0.42;
+    d[i] = v;
+    d[i + 1] = v;
+    d[i + 2] = v;
+  }
+  ctx.putImageData(data, 0, 0);
+  tinted.set(style, canvas);
+  return canvas;
+}
+
+/** Tiles the photo across the whole texture so bricks and planks keep their real size. */
+function paintFacade(ctx: CanvasRenderingContext2D, img: HTMLImageElement, res: number, style: FacadeStyle): void {
+  const tile = tintedFacade(img, style);
+  const repeat = FACADE_REPEAT[style];
+  const step = res / repeat;
+  for (let y = 0; y < repeat; y++) {
+    for (let x = 0; x < repeat; x++) ctx.drawImage(tile, x * step, y * step, step, step);
+  }
+}
+
+function facadeNormalTexture(style: FacadeStyle): Texture | null {
+  const img = facadeNormalImage(style);
+  if (!img) return null;
+  const repeat = FACADE_REPEAT[style];
+  const tex = new Texture(img);
+  tex.wrapS = tex.wrapT = RepeatWrapping;
+  tex.repeat.set(repeat, repeat);
+  tex.minFilter = LinearMipmapLinearFilter;
+  tex.magFilter = LinearFilter;
+  tex.anisotropy = 8;
+  tex.needsUpdate = true;
+  return tex;
 }
 
 /** Road surface textures. `u` spans the road width, `v` repeats every 12 m along the road. */
